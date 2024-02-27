@@ -1,7 +1,7 @@
 import {Listener} from "../../api/event/Listener";
 import {Manager} from "../../Manager";
 
-export class SetupListener implements Listener {
+export class DrawListener implements Listener {
     private manager: Manager;
 
     constructor(manager: Manager) {
@@ -9,6 +9,6 @@ export class SetupListener implements Listener {
     }
 
     public handle() {
-        createCanvas(400, 400);
+        background(220);
     }
 }
