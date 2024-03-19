@@ -7,7 +7,7 @@ export class Card {
     private readonly id: number;
     private color: CardColor;
 
-    constructor(type: CardType, color: CardColor, id: number) {
+    public constructor(type: CardType, color: CardColor, id: number) {
         this.type = type;
         this.id = id;
         this.color = color;

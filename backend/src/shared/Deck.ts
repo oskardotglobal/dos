@@ -28,4 +28,15 @@ export class Deck {
 
         this.cards = result;
     }
+
+    public draw() {
+        const card = this.cards.pop();
+
+        if (card !== undefined) {
+            return card;
+        }
+
+        // TODO: Ablagestapel neu mischen und zurück in den Kartenstapel legen
+        return null;
+    }
 }
