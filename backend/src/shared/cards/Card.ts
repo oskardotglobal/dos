@@ -1,6 +1,6 @@
-import {Cards} from "./Cards";
-import {CardType} from "./CardType";
-import {CardColor} from "./CardColor";
+import {Cards} from "../../../../backend/src/shared/Cards";
+import {CardType} from "../../../../backend/src/shared/CardType";
+import {CardColor} from "../../../../backend/src/shared/CardColor";
 
 export class Card {
     private readonly type: CardType;
