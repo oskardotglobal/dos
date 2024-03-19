@@ -1,12 +1,12 @@
-import {Cards} from "./Cards";
-import {Card} from "./Card";
+import {Cards} from "./cards/Cards";
+import {Card} from "./cards/Card";
 
 function getRandomNumber(min: number, max: number) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
 export class Deck {
-    public cards: Card[] = [];
+    private cards: Card[] = [];
 
     public constructor() {
         for (const card of Object.values(Cards)) {
