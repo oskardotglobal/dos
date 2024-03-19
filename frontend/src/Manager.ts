@@ -8,7 +8,6 @@ import {KeyPressedListener} from "./systems/listener/KeyPressedListener";
 import {PreloadListener} from "./systems/listener/PreloadListener";
 import {MousePressedListener} from "./systems/listener/MousePressedListener";
 import {WindowResizedListener} from "./systems/listener/WindowResizedListener";
-import {Deck} from "./shared/Deck";
 import {Player} from "./shared/Player";
 
 
@@ -18,7 +17,6 @@ import {Player} from "./shared/Player";
 export class Manager {
     private readonly client: WsClient<ServiceType> | null;
     private readonly listeners: Listeners;
-    private readonly deck: Deck;
 
     private readonly players: Map<string, Player>;
 
@@ -39,9 +37,6 @@ export class Manager {
         this.listeners.register(Event.PRELOAD, new PreloadListener(this));
         this.listeners.register(Event.MOUSE_PRESSED, new MousePressedListener(this));
         this.listeners.register(Event.WINDOW_RESIZED, new WindowResizedListener(this));
-
-        this.deck = new Deck();
-        this.deck.shuffle();
 
         this.players = new Map<string, Player>();
     }

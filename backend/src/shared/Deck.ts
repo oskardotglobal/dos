@@ -1,19 +1,23 @@
 import {Cards} from "./cards/Cards";
 import {Card} from "./cards/Card";
+import {getRandomNumber, removeIndexFromArray} from "./utils";
 
-function getRandomNumber(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min) + min);
-}
-
+/**
+ * The deck. Contains all cards in random order.
+ * Use `Deck.INSTANCE` to access the current instance
+ * @singleton
+ */
 export class Deck {
     private cards: Card[] = [];
 
-    public constructor() {
+    private constructor() {
         for (const card of Object.values(Cards)) {
             for (let i = 0; i < card.getAmount(); i++) {
                 this.cards.push(card);
             }
         }
+
+        this.shuffle();
     }
 
     public shuffle() {
@@ -23,7 +27,7 @@ export class Deck {
             const j = getRandomNumber(0, this.cards.length);
 
             result[i] = this.cards[j];
-            this.cards = this.cards.slice(0, j).concat(this.cards.slice(j + 1));
+            this.cards = removeIndexFromArray(this.cards, j);
         }
 
         this.cards = result;
@@ -38,5 +42,24 @@ export class Deck {
 
         // TODO: Ablagestapel neu mischen und zurück in den Kartenstapel legen
         return null;
+    }
+
+    /**
+     * Add a card to the bottom of the deck
+    */
+    public put(card: Card) {
+        this.cards = [card].concat(this.cards);
+    }
+
+    /**
+     * Get the instance of the deck
+     * @constructor
+     */
+    public static get INSTANCE(): Deck {
+        // @ts-ignore I don't fucking care
+        window["deck"] = window["deck"] || new Deck();
+
+        // @ts-ignore this is defined above
+        return window["deck"];
     }
 }
