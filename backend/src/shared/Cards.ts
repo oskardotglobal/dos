@@ -1,81 +1,11 @@
-export enum CardType {
-    ONE,
-    TWO,
-    THREE,
-    FOUR,
-    FIVE,
-    SIX,
-    SEVEN,
-    EIGHT,
-    NINE,
-
-    PLUS_TWO,
-    REVERSE,
-    SKIP,
-    SWAP_CARDS,
-
-    WISH,
-    WISH_PLUS_FOUR,
-}
-
-export enum CardColor {
-    COLORLESS,
-    RED,
-    BLUE,
-    GREEN,
-    YELLOW,
-}
-
-export class Card {
-    private readonly type: CardType;
-    private readonly id: number;
-    private color: CardColor;
-
-    constructor(type: CardType, color: CardColor, id: number) {
-        this.type = type;
-        this.id = id;
-        this.color = color;
-    }
-
-    public getId(): number {
-        return this.id;
-    }
-
-    public setColor(color: CardColor) {
-        this.color = color;
-    }
-
-    public getAmount(): number {
-        switch (this.type) {
-            case CardType.WISH | CardType.WISH_PLUS_FOUR:
-                return 4;
-            case CardType.ONE | CardType.TWO | CardType.THREE | CardType.FOUR | CardType.FIVE | CardType.SIX | CardType.SEVEN | CardType.EIGHT | CardType.NINE:
-                return 2;
-            case CardType.PLUS_TWO | CardType.REVERSE | CardType.SKIP | CardType.SWAP_CARDS:
-                return 2;
-
-            default:
-                return 0;
-        }
-    }
-
-    public canBePlayedOn(card: Card): boolean {
-        if (this.color === CardColor.COLORLESS) {
-            return true;
-        }
-
-        if (this.type === card.type) {
-            return true;
-        }
-
-        return this.color === card.color;
-    }
-}
+import {Card} from "./Card";
+import {CardColor} from "./CardColor";
+import {CardType} from "./CardType";
 
 // TODO: Volksversammlung, Kommunismus, Kapitalismus, etc...
 export const Cards = Object.freeze({
-    WISH: new Card(CardType.WISH, CardColor.RED, 0),
-    WISH_PLUS_FOUR: new Card(CardType.WISH, CardColor.RED, 1),
+    WISH: new Card(CardType.WISH, CardColor.COLORLESS, 0),
+    WISH_PLUS_FOUR: new Card(CardType.WISH_PLUS_FOUR, CardColor.COLORLESS, 1),
 
     RED_ONE: new Card(CardType.ONE, CardColor.RED, 2),
     RED_TWO: new Card(CardType.TWO, CardColor.RED, 3),
@@ -136,34 +66,4 @@ export const Cards = Object.freeze({
     YELLOW_REVERSE: new Card(CardType.REVERSE, CardColor.YELLOW, 51),
     YELLOW_SKIP: new Card(CardType.SKIP, CardColor.YELLOW, 52),
     YELLOW_SWAP_CARDS: new Card(CardType.SWAP_CARDS, CardColor.YELLOW, 53),
-
-    of: function (id: number) {
-        for (const c in Object.values(Cards)) {
-            const card = c as unknown as Card;
-
-            if (card.getId() === id) {
-                return card;
-            }
-        }
-
-        return null;
-    }
 });
-
-function createDeck() {
-    const cards: Card[] = [];
-
-    for (const c in Object.values(Cards)) {
-        const card = c as unknown as Card;
-
-        for (let i = 0; i < card.getAmount(); i++) {
-            cards.push(card);
-        }
-    }
-
-    return cards;
-}
-
-// TODO
-function shuffleDeck() {
-}

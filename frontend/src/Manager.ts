@@ -1,5 +1,5 @@
 import {WsClient} from "tsrpc-browser";
-import {serviceProto, ServiceType} from "../../backend/src/shared/protocols/serviceProto";
+import {ServiceType} from "../../backend/src/shared/protocols/serviceProto";
 import {Listeners} from "./api/event/Listeners";
 import {Event} from "./api/event/Event";
 import {SetupListener} from "./systems/listener/SetupListener";
@@ -8,6 +8,7 @@ import {KeyPressedListener} from "./systems/listener/KeyPressedListener";
 import {PreloadListener} from "./systems/listener/PreloadListener";
 import {MousePressedListener} from "./systems/listener/MousePressedListener";
 import {WindowResizedListener} from "./systems/listener/WindowResizedListener";
+import {Deck} from "./shared/Deck";
 
 
 /**
@@ -16,6 +17,7 @@ import {WindowResizedListener} from "./systems/listener/WindowResizedListener";
 export class Manager {
     private readonly client: WsClient<ServiceType> | null;
     private readonly listeners: Listeners;
+    private readonly deck: Deck;
 
     constructor() {
         /*
@@ -35,10 +37,11 @@ export class Manager {
         this.listeners.register(Event.MOUSE_PRESSED, new MousePressedListener(this));
         this.listeners.register(Event.WINDOW_RESIZED, new WindowResizedListener(this));
 
+        this.deck = new Deck();
+        this.deck.shuffle();
     }
 
     public getClient(): WsClient<ServiceType> | null {
         return this.client;
     }
 }
-
