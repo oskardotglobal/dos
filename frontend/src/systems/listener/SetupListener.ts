@@ -1,63 +1,116 @@
 import {Listener} from "../../api/event/Listener";
 import {Manager} from "../../Manager";
-import p5 from "p5";
-
 
 export class SetupListener implements Listener {
+
     private manager: Manager;
 
-    //private cardHolderStatics: p5.Color = color(81, 115, 59);
+    private _player0Name: string = 'PLACEHOLDER';
+    private _player2Name: string = 'PLACEHOLDER';
+    private _player3Name: string = 'PLACEHOLDER';
+    private _player4Name: string = 'PLACEHOLDER';
 
-    //Deck static elements displayed in an active game
-    private deckCardBorderWidth: number = 290;
-    private deckCardBorderHeight: number = 200;
-    private deckCardBorderOffset: number = 40;
+    private centerX: number = 0; // set in handle()
+    private centerY: number = 0; // set in handle()
 
-    //Player 0 static elements displayed in an active game
-    private player0CardBorderWidth: number = 450;
-    private player0CardBorderHeight: number = 5;
-    private player0CardBorderOffsetFromBottom: number = 270;
-
-    //Player 1 (single opponent) static elements displayed in an active game
-    private player1CardBorderWidth: number = 450;
-    private player1CardBorderHeight: number = 5;
-    private player1CardBorderOffsetFromTop: number = 190;
-
+    private dCBWidth: number = 300;
+    private dCBHeight: number = 220;
+    private separatorWidth: number = 500;
+    private separatorHeight: number = 500;
+    private textPadding: number = 15;
 
     constructor(manager: Manager) {
         this.manager = manager;
     }
 
-    public handle() {
-        this.createCanvas()
-        this.createDeckStatics();
-        this.createPlayer0Statics();
-        this.createPlayer1Statics();
+    //------------------------------------------------------------------------------------------------------------------
 
+    set player4Name(value: string) {
+        this._player4Name = value;
+    }
+    set player3Name(value: string) {
+        this._player3Name = value;
+    }
+    set player2Name(value: string) {
+        this._player2Name = value;
+    }
+    set player0Name(value: string) {
+        this._player0Name = value;
     }
 
-    private createCanvas() {
+    //------------------------------------------------------------------------------------------------------------------
+
+    public handle() {
+        this.createBoard();
+        this.createDeckStatics();
+
+        this.createPlayerStatic(0, this.centerX, 600, this._player0Name);
+        this.createPlayerStatic(2, 1400, this.centerY, this._player2Name);
+        this.createPlayerStatic(3, this.centerX, 270, this._player3Name);
+        this.createPlayerStatic(4, 270, this.centerY, this._player4Name);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    private verticalText(iText: string, x: number, y: number){
+        push();
+        textAlign(CENTER, CENTER);
+        const vt = iText.split('').join('\n');
+        text(vt, x, y);
+        pop();
+    }
+
+    private setShapeStroke() {
+        strokeWeight(4);
+        stroke(150, 155, 170);
+    }
+
+    private setTextStroke() {
+        strokeWeight(2);
+        stroke(150, 155, 170);
+        textFont('Verdana');
+        textSize(28);
+        fill(150, 155, 170);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    private createBoard() {
         createCanvas(windowWidth, windowHeight);
-        background(51, 65, 92);
+        this.centerX = windowWidth / 2;
+        this.centerY = windowHeight / 2;
+        background(50, 65, 90);
     }
 
     private createDeckStatics() {
-        strokeWeight(4);
-        stroke(151, 157, 172); // use the color variable 'cardHolderStatics' for the fill later
+        this.setShapeStroke()
         noFill();
-        rect(windowWidth/2 - this.deckCardBorderWidth/2, windowHeight/2 - this.deckCardBorderHeight/2 - this.deckCardBorderOffset, this.deckCardBorderWidth, this.deckCardBorderHeight, 10);
+        rect(this.centerX - this.dCBWidth / 2, this.centerY - this.dCBHeight / 2, this.dCBWidth, this.dCBHeight, 10);
     }
 
-    private createPlayer0Statics() {
-        fill(151, 157, 172); // use the color variable 'cardHolderStatics' for the fill later
-        noStroke();
-        rect(windowWidth/2 - this.player0CardBorderWidth/2, windowHeight - this.player0CardBorderOffsetFromBottom - this.player0CardBorderHeight, this.player0CardBorderWidth, this.player0CardBorderHeight, 10);
-        text('YOU', windowWidth/2 - this.player0CardBorderWidth/2 + 350, windowHeight - this.player0CardBorderOffsetFromBottom - this.player0CardBorderHeight/2 - 20);
-    }
+    private createPlayerStatic(playerNumber: number, x: number, y: number, pName: string) {
+        this.setTextStroke();
 
-    private createPlayer1Statics() {
-        fill(151, 157, 172); // use the color variable 'cardHolderStatics' for the fill later
-        noStroke();
-        rect(windowWidth/2 - this.player1CardBorderWidth/2, this.player1CardBorderOffsetFromTop, this.player1CardBorderWidth, this.player1CardBorderHeight, 10);
+        if (playerNumber === 0) {
+            this.setShapeStroke();
+            line(x - this.separatorWidth / 2, y, x + this.separatorWidth / 2, y);
+            this.setTextStroke();
+            text(pName, x - this.separatorWidth / 2, y - this.textPadding);
+        } else if (playerNumber === 3) {
+            this.setShapeStroke();
+            line(x - this.separatorWidth / 2, y, x + this.separatorWidth / 2, y);
+            this.setTextStroke();
+            text(pName, x - this.separatorWidth / 2, y + this.textPadding + 20);
+        } else if (playerNumber === 2) {
+            this.setShapeStroke();
+            line(x, y - this.separatorHeight / 2, x, y + this.separatorHeight / 2);
+            this.setTextStroke();
+            this.verticalText(pName, x - this.textPadding - 10, y - this.separatorHeight / 2 + 200);
+        } else {
+            this.setShapeStroke();
+            line(x, y - this.separatorHeight / 2, x, y + this.separatorHeight / 2);
+            this.setTextStroke();
+            this.verticalText(pName, x + this.textPadding + 10, y - this.separatorHeight / 2 + 200);
+        }
     }
 }
