@@ -15,11 +15,27 @@ export class Player {
 
     public play(cardIndex: number) {
         if (this.hand[cardIndex] !== undefined) {
-            DiscardPile.INSTANCE.put(this.hand[cardIndex]);
+            const shouldDraw = DiscardPile.INSTANCE.put(this.hand[cardIndex]);
+
+            if (shouldDraw) {
+                for (let i = 0; i < DiscardPile.INSTANCE.getDrawAmount(); i++) {
+                    this.draw();
+                }
+
+                return;
+            }
+
             this.hand = removeIndexFromArray(this.hand, cardIndex);
         }
 
         throw "Cannot play card from hand that doesn't exist";
     }
 
+    public getCardAmount() {
+        return this.hand.length;
+    }
+
+    public getHand() {
+        return this.hand;
+    }
 }

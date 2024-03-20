@@ -1,6 +1,6 @@
-import {Cards} from "../../../../backend/src/shared/Cards";
-import {CardType} from "../../../../backend/src/shared/CardType";
-import {CardColor} from "../../../../backend/src/shared/CardColor";
+import {Cards} from "./Cards";
+import {CardType} from "./CardType";
+import {CardColor} from "./CardColor";
 
 export class Card {
     private readonly type: CardType;
@@ -62,7 +62,7 @@ export class Card {
     }
 
     public canPlayOn(card: Card): boolean {
-        if (this.color === CardColor.COLORLESS) {
+        if (card.color === CardColor.COLORLESS) {
             return true;
         }
 
@@ -82,5 +82,9 @@ export class Card {
         }
 
         return null;
+    }
+
+    public getType(): CardType {
+        return this.type;
     }
 }

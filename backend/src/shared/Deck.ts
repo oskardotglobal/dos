@@ -40,7 +40,6 @@ export class Deck {
             return card;
         }
 
-        // TODO: Ablagestapel neu mischen und zurück in den Kartenstapel legen
         return null;
     }
 
