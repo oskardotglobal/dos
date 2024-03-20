@@ -2,6 +2,7 @@ export enum CardType {
     WISH = "WISH",
     WISH_PLUS_FOUR = "WISH_PLUS_FOUR",
 
+    ZERO = "ZERO",
     ONE = "ONE",
     TWO = "TWO",
     THREE = "THREE",
