@@ -44,4 +44,8 @@ export class Manager {
     public getClient(): WsClient<ServiceType> | null {
         return this.client;
     }
+
+    public getListeners(): Listeners {
+        return this.listeners;
+    }
 }

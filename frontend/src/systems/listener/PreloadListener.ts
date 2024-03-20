@@ -9,6 +9,5 @@ export class PreloadListener implements Listener {
     }
 
     public handle() {
-        createCanvas(400, 400);
     }
 }

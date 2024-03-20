@@ -9,6 +9,5 @@ export class DrawListener implements Listener {
     }
 
     public handle() {
-        background(220);
     }
 }

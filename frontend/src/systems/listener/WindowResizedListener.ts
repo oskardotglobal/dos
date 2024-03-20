@@ -1,5 +1,6 @@
 import {Listener} from "../../api/event/Listener";
 import {Manager} from "../../Manager";
+import {Event} from "../../api/event/Event";
 
 export class WindowResizedListener implements Listener {
     private manager: Manager;
@@ -9,6 +10,7 @@ export class WindowResizedListener implements Listener {
     }
 
     public handle() {
-        createCanvas(400, 400);
+        resizeCanvas(windowWidth, windowHeight);
+        this.manager.getListeners().handle(Event.SETUP);
     }
 }

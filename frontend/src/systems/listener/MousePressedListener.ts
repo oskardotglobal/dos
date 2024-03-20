@@ -9,6 +9,5 @@ export class MousePressedListener implements Listener {
     }
 
     public handle() {
-        createCanvas(400, 400);
     }
 }
