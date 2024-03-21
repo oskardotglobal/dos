@@ -4,7 +4,12 @@ import {DiscardPile} from "./DiscardPile";
 import {removeIndexFromArray} from "./utils";
 
 export class Player {
+    private readonly name: string;
     private hand: Card[] = [];
+
+    public constructor(name: string) {
+        this.name = name;
+    }
 
     public draw() {
         const card = Deck.INSTANCE.draw();
@@ -37,5 +42,9 @@ export class Player {
 
     public getHand() {
         return this.hand;
+    }
+
+    public getName() {
+        return this.name;
     }
 }

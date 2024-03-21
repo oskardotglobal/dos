@@ -14,3 +14,7 @@ export function removeIndexFromArray<T>(array: Array<T>, index: number): Array<T
 
     return array.slice(0, index).concat(array.slice(index + 1));
 }
+
+export function getRandomItem<T>(array: T[]): T {
+    return array[Math.floor(Math.random() * array.length)];
+}

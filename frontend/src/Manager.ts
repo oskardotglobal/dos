@@ -9,11 +9,10 @@ import {PreloadListener} from "./systems/listener/PreloadListener";
 import {MousePressedListener} from "./systems/listener/MousePressedListener";
 import {WindowResizedListener} from "./systems/listener/WindowResizedListener";
 import {Player} from "./shared/Player";
-import {Deck} from "./shared/Deck";
 import {DiscardPile} from "./shared/DiscardPile";
 import {Card} from "./shared/cards/Card";
 import {CardType} from "./shared/cards/CardType";
-
+import {getRandomNumber} from "./shared/utils";
 
 /**
  * Manager class.
@@ -22,8 +21,8 @@ export class Manager {
     private readonly client: WsClient<ServiceType> | null;
     private readonly listeners: Listeners;
 
-    private readonly players: Map<string, Player>;
-    private currentPlayerName: string;
+    private readonly players: Player[];
+    private currentPlayer: number;
 
     public constructor() {
         /*
@@ -43,13 +42,19 @@ export class Manager {
         this.listeners.register(Event.MOUSE_PRESSED, new MousePressedListener(this));
         this.listeners.register(Event.WINDOW_RESIZED, new WindowResizedListener(this));
 
-        // TODO: Create players & assign first player
-        this.players = new Map<string, Player>();
-        this.currentPlayerName = "";
+        // TODO: Create players
+        this.players = [
+            new Player("Player 1"),
+            new Player("Player 2"),
+            new Player("Player 3"),
+            new Player("Player 4"),
+        ];
+
+        this.currentPlayer = getRandomNumber(0, this.players.length);
     }
 
     public hasGameEnded(): boolean {
-        for (const player of this.players.values()) {
+        for (const player of this.getPlayers()) {
             if (player.getCardAmount() === 0) {
                 return true;
             }
@@ -59,7 +64,7 @@ export class Manager {
     }
 
     public play() {
-        for (const player of this.players.values()) {
+        for (const player of this.getPlayers()) {
             for (let i = 0; i < 7; i++) {
                 player.draw();
             }
@@ -72,7 +77,7 @@ export class Manager {
 
             // TODO: other special cards
 
-            const currentPlayer = this.players.get(this.currentPlayerName);
+            const currentPlayer = this.players[this.currentPlayer];
             if (currentPlayer === undefined) throw "Current player is undefined.";
 
             const playableCards: Card[] = [];
@@ -91,6 +96,8 @@ export class Manager {
             // TODO: Let the player select a card
             let playedCard = currentPlayer.getHand().indexOf(playableCards[0]);
             currentPlayer.play(playedCard);
+
+            this.currentPlayer = (this.currentPlayer + 1) % this.players.length;
         } while (!this.hasGameEnded());
     }
 
@@ -100,5 +107,9 @@ export class Manager {
 
     public getListeners(): Listeners {
         return this.listeners;
+    }
+
+    public getPlayers() {
+        return Object.values(this.players);
     }
 }
