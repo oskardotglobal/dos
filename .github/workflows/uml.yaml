@@ -1,0 +1,58 @@
+name: Create UML class diagram
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches: [ canary ]
+  pull_request:
+    branches: [ canary ]
+
+jobs:
+  uml:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts"
+
+      - name: Setup JRE
+        uses: actions/setup-java@v2
+        with:
+          distribution: "adopt"
+          java-version: "17"
+
+      - name: Setup PlantUML TS generator
+        run: npm install -g tplant
+
+      - name: Setup PlantUML
+        run: |
+          mkdir -p .bin
+          wget https://github.com/plantuml/plantuml/releases/download/v1.2023.13/plantuml-1.2023.13.jar -O .bin/plantuml.jar
+
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v1
+
+      - name: Generate diagram
+        run: |
+          tplant --input frontend/src/**/*.ts --exclude frontend/src/shared/utils.ts --exclude frontend/src/shared/protocols/*.ts  --output diagram.puml -A
+
+      - name: Generate image
+        run: |
+          java -jar .bin/plantuml.jar diagram.puml
+          mv diagram.png docs/class_diagram.png
+          
+          rm diagram.puml
+
+      - name: Commit and push
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "class_diagram.png"
+          default_author: github_actions
+          message: "Update class diagram"
+          push: true
+          fetch: false
