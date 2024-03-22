@@ -8,6 +8,7 @@ import {getRandomNumber, removeIndexFromArray} from "./utils";
  * @singleton
  */
 export class Deck {
+    private static instance: Deck;
     private cards: Card[] = [];
 
     private constructor() {
@@ -55,10 +56,10 @@ export class Deck {
      * @constructor
      */
     public static get INSTANCE(): Deck {
-        // @ts-ignore I don't fucking care
-        window["deck"] = window["deck"] || new Deck();
+        if (!Deck.instance) {
+            Deck.instance = new Deck();
+        }
 
-        // @ts-ignore this is defined above
-        return window["deck"];
+        return Deck.instance;
     }
 }

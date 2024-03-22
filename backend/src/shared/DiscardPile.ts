@@ -7,10 +7,11 @@ import {CardType} from "./cards/CardType";
  * The discard pile. Contains the current card on top of the pile.
  */
 export class DiscardPile {
+    private static instance: DiscardPile;
     private card: Card;
     private drawAmount: number = 0;
 
-    constructor() {
+    private constructor() {
         const firstCard = Deck.INSTANCE.draw();
         if (firstCard === null) throw "No first card available!";
 
@@ -55,10 +56,10 @@ export class DiscardPile {
      * @constructor
      */
     public static get INSTANCE(): DiscardPile {
-        // @ts-ignore I don't fucking care
-        window["discard_pile"] = window["discard_pile"] || new DiscardPile();
+        if (!DiscardPile.instance) {
+            DiscardPile.instance = new DiscardPile();
+        }
 
-        // @ts-ignore this is defined above
-        return window["discard_pile"];
+        return DiscardPile.instance;
     }
 }
