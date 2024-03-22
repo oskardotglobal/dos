@@ -13,11 +13,11 @@ export class Listeners {
 
         for (const event of Object.values(Event)) {
             // @ts-ignore we define this here
-            window[event] = () => this.handle(event);
+            window[event] = () => this.emit(event);
         }
     }
 
-    public handle(type: Event) {
+    public emit(type: Event) {
         if (!this.listeners[type]) return;
 
         this.listeners[type].forEach(listener => listener.handle());

@@ -11,6 +11,6 @@ export class WindowResizedListener implements Listener {
 
     public handle() {
         resizeCanvas(windowWidth, windowHeight);
-        this.manager.getListeners().handle(Event.SETUP);
+        this.manager.getListeners().emit(Event.SETUP);
     }
 }
