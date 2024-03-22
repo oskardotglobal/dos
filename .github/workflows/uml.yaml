@@ -39,7 +39,10 @@ jobs:
 
       - name: Generate diagram
         run: |
-          tplant --input frontend/src/**/*.ts --exclude frontend/src/shared/utils.ts --exclude frontend/src/shared/protocols/*.ts  --output diagram.puml -A
+          tplant --input frontend/src/**/*.ts --output diagram.puml -A
+          sed "s/+getRandomNumber(min: number, max: number): number//" -i diagram.puml
+          sed "s/+removeIndexFromArray(array: T\[\], index: number): T\[\]//" -i diagram.puml
+          sed "s/+getRandomItem(array: T\[\]): T//" -i diagram.puml
 
       - name: Generate image
         run: |
