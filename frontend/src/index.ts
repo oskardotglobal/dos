@@ -1,4 +1,5 @@
 import {Manager} from './Manager';
-new Manager();
+
+new Manager().play();
 
 export {};
