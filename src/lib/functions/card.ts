@@ -1,13 +1,6 @@
-import Cards from "$/lib/api/cards/Cards";
-import type CardType from "$/lib/api/cards/CardType";
-import CardColor from "$/lib/api/cards/CardColor";
+import {type Card, CardColor, Cards} from "$/lib/types";
 import {match} from "ts-pattern";
-
-export default interface Card {
-    type: CardType;
-    id: number;
-    color: CardColor;
-}
+import * as O from "fp-ts/Option";
 
 export function getCardAmountInDeck(card: Card): number {
     return match(card.color)
@@ -15,7 +8,7 @@ export function getCardAmountInDeck(card: Card): number {
         .otherwise(() => 2);
 }
 
-function canPlayOn(currentCard: Card, newCard: Card): boolean {
+export function canPlayOn(currentCard: Card, newCard: Card): boolean {
     if (currentCard.color === CardColor.COLORLESS) {
         return true;
     }
@@ -27,13 +20,13 @@ function canPlayOn(currentCard: Card, newCard: Card): boolean {
     return newCard.color === currentCard.color;
 }
 
-function cardOfId(id: number): Card | null {
+export function cardOfId(id: number): O.Option<Card> {
     for (const card of Object.values(Cards)) {
 
         if (card.id === id) {
-            return card;
+            return O.some(card);
         }
     }
 
-    return null;
+    return O.none;
 }

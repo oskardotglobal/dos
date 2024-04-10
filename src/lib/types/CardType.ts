@@ -1,4 +1,4 @@
-enum CardType {
+export enum CardType {
     WISH = "WISH",
     WISH_PLUS_FOUR = "WISH_PLUS_FOUR",
 
@@ -18,5 +18,3 @@ enum CardType {
     SKIP = "SKIP",
     SWAP_CARDS = "SWAP_CARDS",
 }
-
-export default CardType;

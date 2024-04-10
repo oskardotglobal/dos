@@ -1,18 +1,8 @@
-import type {Game, PlayerID} from "boardgame.io";
-import type PlayerData from "$/lib/api/PlayerData";
-import {create} from "$/lib/utils";
-import {type DiscardPile} from "$/lib/api/DiscardPile";
-import Deck, {drawCard} from "$/lib/api/Deck";
-import Cards from "$/lib/api/cards/Cards";
-import type Card from "$/lib/api/cards/Card";
-import {getCardAmountInDeck} from "$/lib/api/cards/Card";
-import {isNone, match} from "fp-ts/Option";
+import type {Game} from "boardgame.io";
+import {getCardAmountInDeck, drawCard, optionOf} from "$/lib/functions";
+import {type Deck, type Card, type GameState, Cards, create} from "$/lib/types";
+import * as O from "fp-ts/Option";
 
-export interface GameState {
-    players: Record<PlayerID, PlayerData>;
-    discardPile: DiscardPile;
-    deck: Deck;
-}
 
 export const DosGame: Game<GameState> = {
     turn: {minMoves: 1, maxMoves: 1},
@@ -29,16 +19,10 @@ export const DosGame: Game<GameState> = {
 
         deck.cards = random.Shuffle(deck.cards);
 
-        const firstCard = drawCard(deck);
-
-        if (isNone(firstCard)) {
-            throw "firstCard is undefined - Deck is empty during setup, this shouldn't be reachable";
-        }
-
         const G: GameState = create({
             players: {},
             discardPile: create({
-                card: firstCard.value,
+                card: optionOf(deck.cards.pop()),
                 drawAmount: 0
             }),
             deck: deck,
@@ -48,9 +32,9 @@ export const DosGame: Game<GameState> = {
             const hand: Card[] = [];
 
             for (let i = 0; i < 7; i++) {
-                const card = drawCard(G.deck);
+                const card = drawCard(G);
 
-                if (isNone(card)) {
+                if (O.isNone(card)) {
                     throw "card is undefined - Deck is not full enough during setup, this shouldn't be reachable";
                 }
 

@@ -1,10 +1,7 @@
-import type Card from "$/lib/api/cards/Card";
-import CardColor from "$/lib/api/cards/CardColor";
-import CardType from "$/lib/api/cards/CardType";
-import {create} from "$/lib/utils";
+import {type Card, CardType, CardColor, create} from "$/lib/types";
 
 // TODO: Volksversammlung, Kommunismus, Kapitalismus, etc...
-const Cards = Object.freeze({
+export const Cards = Object.freeze({
     // Special
     WISH: create<Card>({ type: CardType.WISH, color: CardColor.COLORLESS, id: 0 }),
     WISH_PLUS_FOUR: create<Card>({ type: CardType.WISH_PLUS_FOUR, color: CardColor.COLORLESS, id: 1 }),
@@ -77,5 +74,3 @@ const Cards = Object.freeze({
     BLUE_SKIP: create<Card>({ type: CardType.SKIP, color: CardColor.BLUE, id: 56 }),
     BLUE_SWAP_CARDS: create<Card>({ type: CardType.SWAP_CARDS, color: CardColor.BLUE, id: 57 }),
 });
-
-export default Cards;
