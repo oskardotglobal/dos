@@ -2,7 +2,7 @@ import {type Card, CardColor, Cards} from "$/lib/types";
 import {match} from "ts-pattern";
 import * as O from "fp-ts/Option";
 
-export function getCardAmountInDeck(card: Card): number {
+export function getCardAmount(card: Card): number {
     return match(card.color)
         .with(CardColor.COLORLESS, () => 4)
         .otherwise(() => 2);

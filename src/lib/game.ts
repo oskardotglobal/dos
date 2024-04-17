@@ -1,47 +1,45 @@
 import type {Game} from "boardgame.io";
-import {getCardAmountInDeck, drawCard, optionOf} from "$/lib/functions";
-import {type Deck, type Card, type GameState, Cards, create} from "$/lib/types";
-import * as O from "fp-ts/Option";
+import {getCardAmount, drawCard, optionOf, SomeP, NoneP, err} from "$/lib/functions";
+import {type Deck, type GameState, Cards, type PlayerData} from "$/lib/types";
+import {match} from "ts-pattern";
+import {Draw, Play} from "$/lib/moves";
 
 
 export const DosGame: Game<GameState> = {
     turn: {minMoves: 1, maxMoves: 1},
-    moves: {},
+    moves: {Draw, Play},
 
     setup({ctx, random}) {
-        const deck: Deck = create({cards: []});
+        const deck = <Deck>{cards: []};
 
         for (const card of Object.values(Cards)) {
-            for (let i = 0; i < getCardAmountInDeck(card); i++) {
+            for (let i = 0; i < getCardAmount(card); i++) {
                 deck.cards.push(card);
             }
         }
 
         deck.cards = random.Shuffle(deck.cards);
 
-        const G: GameState = create({
+        const G = <GameState>{
             players: {},
-            discardPile: create({
+            discardPile: {
                 card: optionOf(deck.cards.pop()),
                 drawAmount: 0
-            }),
-            deck: deck,
-        });
+            },
+            deck: deck
+        };
 
         for (const playerId of ctx.playOrder) {
-            const hand: Card[] = [];
+            const playerData = <PlayerData>{hand: []};
 
             for (let i = 0; i < 7; i++) {
-                const card = drawCard(G);
-
-                if (O.isNone(card)) {
-                    throw "card is undefined - Deck is not full enough during setup, this shouldn't be reachable";
-                }
-
-                hand.push(card.value);
+                match(drawCard(G))
+                    .with(SomeP(), (card) => playerData.hand.push(card.value))
+                    .with(NoneP(), () => err("card is undefined - Deck is not full enough during setup, this shouldn't be reachable"))
+                    .exhaustive();
             }
 
-            G.players[playerId] = create({hand: hand});
+            G.players[playerId] = playerData;
         }
 
         return G;
