@@ -1,8 +1,8 @@
-import {type Card, CardType, type GameState} from "$/lib/types";
+import {type Card, CardType, type IGameState} from "$/lib/types";
 import {putCardAtBottom} from "$/lib/functions";
 import * as O from "fp-ts/Option";
 
-export function putIntoDiscardPile(G: GameState, card: Card) {
+export function putIntoDiscardPile(G: IGameState, card: Card) {
     let shouldDraw = false;
 
     if (card.type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR]) {

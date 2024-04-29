@@ -2,7 +2,6 @@ export * from "./deck";
 export * from "./discard_pile";
 export * from "./card";
 export * from "./option";
-export * from "./player"
 
 export function err(e: string): never {
     throw e;

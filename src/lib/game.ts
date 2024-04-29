@@ -1,11 +1,11 @@
 import type {Game} from "boardgame.io";
 import {getCardAmount, drawCard, optionOf, SomeP, NoneP, err} from "$/lib/functions";
-import {type Deck, type GameState, Cards, type PlayerData} from "$/lib/types";
+import {type Deck, type IGameState, Cards, type PlayerData} from "$/lib/types";
 import {match} from "ts-pattern";
 import {Draw, Play} from "$/lib/moves";
 
 
-export const DosGame: Game<GameState> = {
+export const DosGame: Game<IGameState> = {
     turn: {minMoves: 1, maxMoves: 1},
     moves: {Draw, Play},
 
@@ -20,7 +20,7 @@ export const DosGame: Game<GameState> = {
 
         deck.cards = random.Shuffle(deck.cards);
 
-        const G = <GameState>{
+        const G = <IGameState>{
             players: {},
             discardPile: {
                 card: optionOf(deck.cards.pop()),
