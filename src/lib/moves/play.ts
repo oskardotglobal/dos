@@ -1,18 +1,31 @@
 import type {Move} from "boardgame.io";
-import {GameState, IGameState} from "$/lib/types";
+import {GameState} from "$/lib/types";
 import {assert} from "$/lib/functions";
-import * as O from "fp-ts/Option";
+import {TypeOfG} from "$/lib/game";
+import {INVALID_MOVE} from "boardgame.io/core";
 
-export const Play: Move<IGameState> = ({G: g, events, playerID}, cardID: number) => {
-    const G = GameState.of(g);
+export const Play: Move<TypeOfG> = ({G: g, events, playerID}, cardID: number) => {
+    const G = GameState.fromG(g);
     const player = G.getPlayer(playerID);
+    const hand = player.getHand()
 
-    assert(player.hand[cardID] !== undefined, `Card of player ${playerID} with id ${cardID} not found`);
-    const pickedCard = player.hand[cardID]!;
+    assert(hand[cardID] !== undefined, `Card of player ${playerID} with id ${cardID} not found`);
+    const pickedCard = hand[cardID]!;
 
-    delete player.hand[cardID];
-    G.discardPile.card = O.some(pickedCard);
+    if (!G.discardPile.canPlayOn(pickedCard)) {
+        return INVALID_MOVE;
+    }
 
-    G.to(g);
+    delete hand[cardID];
+
+    const shouldDraw = G.discardPile.put(G.deck, pickedCard);
+
+    if (shouldDraw) {
+        for (let i = 0; i < G.discardPile.getDrawAmount(); i++) {
+            player.draw(G.deck);
+        }
+    }
+
+    g.value = G.toG();
     events.endTurn();
 };

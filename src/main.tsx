@@ -7,7 +7,9 @@ import {DosGame} from "$/lib/game";
 import Board from "$/components/Board";
 import LoadingScreen from "$/components/LoadingScreen";
 
+import "reflect-metadata";
 import "$/styles/globals.css";
+
 
 const App = Client({
     // A game object.

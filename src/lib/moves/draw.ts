@@ -1,16 +1,13 @@
 import type {Move} from "boardgame.io";
-import {GameState, type IGameState} from "$/lib/types";
+import {GameState} from "$/lib/types";
 import * as O from "fp-ts/Option";
+import {TypeOfG} from "$/lib/game";
 
-export const Draw: Move<IGameState> = ({G: g, events, playerID}) => {
-    const G = GameState.of(g);
-    const card = G.draw();
-    const player = G.getPlayer(playerID);
+export const Draw: Move<TypeOfG> = ({G: g, events, playerID}) => {
+    const G = GameState.fromG(g);
 
-    if (O.isSome(card)) {
-        player.hand.push(card.value);
-    }
+    G.getPlayer(playerID).draw(G.deck);
 
-    G.to(g);
+    g.value = G.toG();
     events.endTurn();
 };
