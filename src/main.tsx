@@ -21,9 +21,4 @@ const App = Client({
     debug: true,
 });
 
-ReactDOM.render(
-    <React.StrictMode>
-        <Menu />
-    </React.StrictMode>,
-    document.getElementById("root")
-);
+ReactDOM.render(<Menu />, document.getElementById("root"));
