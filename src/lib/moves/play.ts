@@ -1,11 +1,11 @@
 import type {Move} from "boardgame.io";
-import {GameState} from "$/lib/types";
+import {GameState, SerializableGameState} from "$/lib/types";
 import {assert} from "$/lib/functions";
-import {TypeOfG} from "$/lib/game";
 import {INVALID_MOVE} from "boardgame.io/core";
 
-export const Play: Move<TypeOfG> = ({G: g, events, playerID}, cardID: number) => {
-    const G = GameState.fromG(g);
+export const Play: Move<SerializableGameState> = ({G: g, events, playerID}, cardID: number) => {
+    const G = GameState.deserialize(g);
+
     const player = G.getPlayer(playerID);
     const hand = player.getHand()
 
@@ -26,6 +26,6 @@ export const Play: Move<TypeOfG> = ({G: g, events, playerID}, cardID: number) =>
         }
     }
 
-    g.value = G.toG();
+    G.serialize(g);
     events.endTurn();
 };

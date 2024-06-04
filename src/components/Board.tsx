@@ -1,10 +1,10 @@
 import type {BoardProps} from "boardgame.io/react";
-import {TypeOfG} from "$/lib/game";
-import {useState} from "react";
-import {GameState} from "$/lib/types";
+import {useEffect, useMemo} from "react";
+import {GameState, SerializableGameState} from "$/lib/types";
 
-export default function Board(props: BoardProps<TypeOfG>) {
-    const [G] = useState((GameState.fromG(props.G)));
+export default function Board(props: BoardProps<SerializableGameState>) {
+    const G = useMemo(() => GameState.deserialize(props.G), [props.G]);
+    useEffect(() => G.serialize(props.G), [G]);
 
     return (
         <div>

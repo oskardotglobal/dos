@@ -1,13 +1,11 @@
 import type {Move} from "boardgame.io";
-import {GameState} from "$/lib/types";
-import * as O from "fp-ts/Option";
-import {TypeOfG} from "$/lib/game";
+import {GameState, SerializableGameState} from "$/lib/types";
 
-export const Draw: Move<TypeOfG> = ({G: g, events, playerID}) => {
-    const G = GameState.fromG(g);
+export const Draw: Move<SerializableGameState> = ({G: g, events, playerID}) => {
+    const G = GameState.deserialize(g);
 
     G.getPlayer(playerID).draw(G.deck);
 
-    g.value = G.toG();
+    G.serialize(g);
     events.endTurn();
 };
