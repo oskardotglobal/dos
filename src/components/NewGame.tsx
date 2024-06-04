@@ -15,12 +15,6 @@ const App = Client({
 });
 
 
-const NewGame = () => {
-    return (
-        <div>
-            <h1>New Game</h1>
-        </div>
-    );
-}
+const NewGame = () => <App />;
 
 export default NewGame;
