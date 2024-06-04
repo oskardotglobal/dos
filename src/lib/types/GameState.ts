@@ -1,30 +1,18 @@
 import type {Ctx, PlayerID} from "boardgame.io";
-import {Player, DiscardPile, Deck} from "$/lib/types";
+import {Player, DiscardPile, Deck, Serializable} from "$/lib/types";
 import {assert} from "$/lib/functions";
 import {RandomAPI} from "boardgame.io/dist/types/src/plugins/random/random";
-import {instanceToPlain, plainToInstance, Type} from "class-transformer";
-import {TypeOfG} from "$/lib/game";
 
-import "reflect-metadata";
 
 export class GameState {
-    @Type(() => Player)
     public readonly players: Record<PlayerID, Player>;
-
-    @Type(() => DiscardPile)
     public readonly discardPile: DiscardPile;
-
-    @Type(() => Deck)
     public readonly deck: Deck;
 
-    public constructor(ctx: Ctx, random: RandomAPI) {
-        this.deck = new Deck(random);
-        this.discardPile = new DiscardPile(this.deck);
-        this.players = {};
-
-        for (const playerId of ctx.playOrder) {
-            this.players[playerId] = new Player(this.deck);
-        }
+    private constructor(players: Record<PlayerID, Player>, discardPile: DiscardPile, deck: Deck) {
+        this.deck = deck;
+        this.discardPile = discardPile;
+        this.players = players;
     }
 
     public getPlayer(playerID: PlayerID) {
@@ -32,11 +20,47 @@ export class GameState {
         return this.players[playerID];
     }
 
-    public toG() {
-        return {value: instanceToPlain(this)};
+    public serialize(g: SerializableGameState) {
+        const players: Record<PlayerID, string> = {};
+
+        for (const player of Object.keys(this.players)) {
+            players[player] = this.players[player].serialize();
+        }
+
+        g.players = players;
+        g.deck = this.deck.serialize();
+        g.discardPile = this.discardPile.serialize();
     }
 
-    public static fromG(g: TypeOfG) {
-        return plainToInstance(GameState, g);
+    public static deserialize(object: SerializableGameState): GameState {
+        const players: Record<PlayerID, Player> = {};
+
+        for (const player of Object.keys(object.players)) {
+            players[player] = Player.prototype.deserialize(object.players[player]);
+        }
+
+        return new GameState(
+            players,
+            DiscardPile.prototype.deserialize(object.discardPile),
+            Deck.prototype.deserialize(object.deck)
+        );
     }
+
+    public static create(ctx: Ctx, random: RandomAPI): GameState {
+        const deck = Deck.create(random);
+        const discardPile = DiscardPile.create(deck);
+        const players: Record<PlayerID, Player> = {};
+
+        for (const playerId of ctx.playOrder) {
+            players[playerId] = Player.create(deck);
+        }
+
+        return new GameState(players, discardPile, deck);
+    }
+}
+
+export interface SerializableGameState {
+    deck: string;
+    players: Record<PlayerID, string>;
+    discardPile: string;
 }

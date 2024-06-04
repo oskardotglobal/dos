@@ -1,14 +1,15 @@
 import type {Game} from "boardgame.io";
-import {GameState} from "$/lib/types";
+import {GameState, SerializableGameState} from "$/lib/types";
 import {Draw, Play} from "$/lib/moves";
 
-export type TypeOfG = { value: Record<string, any> };
-
-export const DosGame: Game<TypeOfG> = {
+export const DosGame: Game<SerializableGameState> = {
     turn: {minMoves: 1, maxMoves: 1},
     moves: {Draw, Play},
 
     setup({ctx, random}) {
-        return new GameState(ctx, random).toG();
+        const g = <SerializableGameState>{};
+        GameState.create(ctx, random).serialize(g);
+
+        return g;
     }
 }

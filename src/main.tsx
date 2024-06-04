@@ -7,7 +7,6 @@ import {DosGame} from "$/lib/game";
 import Board from "$/components/Board";
 import LoadingScreen from "$/components/LoadingScreen";
 
-import "reflect-metadata";
 import "$/styles/globals.css";
 import Menu from "$/components/Menu";
 
@@ -21,4 +20,9 @@ const App = Client({
     debug: true,
 });
 
-ReactDOM.render(<Menu />, document.getElementById("root"));
+ReactDOM.render(
+    <React.StrictMode>
+        <Menu/>
+    </React.StrictMode>,
+    document.getElementById("root")
+);
