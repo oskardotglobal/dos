@@ -11,15 +11,6 @@ import "$/styles/globals.css";
 import Menu from "$/components/Menu";
 
 
-const App = Client({
-    game: DosGame,
-    numPlayers: 2,
-    board: Board,
-    loading: LoadingScreen,
-    multiplayer: Local(),
-    debug: true,
-});
-
 ReactDOM.render(
     <React.StrictMode>
         <Menu/>
