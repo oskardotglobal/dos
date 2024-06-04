@@ -1,6 +1,5 @@
 import {Card, CardColor, CardType, Deck, Serializable} from "$/lib/types";
 import * as O from "fp-ts/Option";
-import {json} from "fp-ts";
 
 export class DiscardPile implements Serializable<DiscardPile> {
     private card: O.Option<Card>;
@@ -26,22 +25,12 @@ export class DiscardPile implements Serializable<DiscardPile> {
     }
 
     public put(deck: Deck, card: Card) {
-        let shouldDraw = false;
-
         if (card.type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR]) {
             const card = this.card;
-            if (O.isNone(card)) return false;
-
-            if (!(card.value.type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR])) {
-                shouldDraw = true;
-            }
+            if (O.isNone(card)) return;
 
             // Ternary operator
             this.drawAmount += card.value.type === CardType.WISH_PLUS_FOUR ? 4 : 2;
-        }
-
-        if (shouldDraw) {
-            return true;
         }
 
         if (O.isSome(this.card)) {
@@ -49,7 +38,10 @@ export class DiscardPile implements Serializable<DiscardPile> {
         }
 
         this.card = O.some(card);
-        return false;
+    }
+
+    public peek() {
+        return this.card;
     }
 
     public getDrawAmount() {

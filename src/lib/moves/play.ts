@@ -1,13 +1,31 @@
 import type {Move} from "boardgame.io";
-import {GameState, SerializableGameState} from "$/lib/types";
+import {CardColor, Cards, CardType, GameState, SerializableGameState} from "$/lib/types";
 import {assert} from "$/lib/functions";
 import {INVALID_MOVE} from "boardgame.io/core";
+import * as O from "fp-ts/Option";
 
-export const Play: Move<SerializableGameState> = ({G: g, events, playerID}, cardID: number) => {
+export const Play: Move<SerializableGameState> = ({
+                                                      G: g,
+                                                      events,
+                                                      playerID,
+                                                      ctx
+                                                  }, cardID: number, wishedColor: CardColor = CardColor.COLORLESS) => {
     const G = GameState.deserialize(g);
 
     const player = G.getPlayer(playerID);
     const hand = player.getHand()
+
+    if (
+        O.getOrElse(() => Cards.BLUE_EIGHT)(G.discardPile.peek()).type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR]
+        && !hand.some((card) => card.type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR])
+    ) {
+        for (let i = 0; i < G.discardPile.getDrawAmount(); i++) {
+            player.draw(G.deck);
+        }
+
+        G.serialize(g);
+        events.endTurn();
+    }
 
     assert(hand[cardID] !== undefined, `Card of player ${playerID} with id ${cardID} not found`);
     const pickedCard = hand[cardID]!;
@@ -17,13 +35,25 @@ export const Play: Move<SerializableGameState> = ({G: g, events, playerID}, card
     }
 
     delete hand[cardID];
+    G.discardPile.put(G.deck, pickedCard);
 
-    const shouldDraw = G.discardPile.put(G.deck, pickedCard);
+    switch (pickedCard.type) {
+        case CardType.REVERSE:
+            break;
+        case CardType.WISH:
+        case CardType.WISH_PLUS_FOUR:
+            const card = G.discardPile.peek();
+            if (O.isSome(card)) {
+                card.value.color = wishedColor;
+            }
 
-    if (shouldDraw) {
-        for (let i = 0; i < G.discardPile.getDrawAmount(); i++) {
-            player.draw(G.deck);
-        }
+            break;
+        case CardType.SKIP:
+            G.serialize(g);
+
+            const currentIndex = ctx.playOrder.indexOf(playerID) % ctx.numPlayers;
+            events.endTurn({next: ctx.playOrder[currentIndex + 2]});
+            break;
     }
 
     G.serialize(g);
