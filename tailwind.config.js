@@ -1,6 +1,9 @@
 module.exports = {
   content: ['index.html','./src/**/*.{js,jsx,ts,tsx,vue,html}'],
   theme: {
+    maxWidth: {
+        '3/5': '60%'
+    },
     extend: {
       colors: {
         'menu-gradient-end': '#6E7788',
