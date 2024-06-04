@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import NewGame from "$/components/NewGame";
-import JoinGame from "$/components/JoinGame";
-import HowToPlay from "$/components/HowToPlay";
+import NewGame from "$/components/menu/NewGame";
+import JoinGame from "$/components/menu/JoinGame";
+import HowToPlay from "$/components/menu/HowToPlay";
 
 const Menu = () => {
     const [selectedComponent, setSelectedComponent] = useState<React.ReactElement | null>(null);

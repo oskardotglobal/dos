@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Menu from "$/components/Menu";
+import Menu from "$/components/menu/Menu";
 
 const HowToPlay = () => {
     const [selectedComponent, setSelectedComponent] = useState<React.ReactElement | null>(null);

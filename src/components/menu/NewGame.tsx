@@ -1,8 +1,8 @@
 import React from "react";
 import {Client} from "boardgame.io/react";
 import {DosGame} from "$/lib/game";
-import Board from "$/components/Board";
-import LoadingScreen from "$/components/LoadingScreen";
+import Board from "$/components/board/Board";
+import LoadingScreen from "$/components/menu/LoadingScreen";
 import {Local} from "boardgame.io/multiplayer";
 
 const App = Client({

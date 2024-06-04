@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import Menu from "$/components/Menu";
+import Menu from "$/components/menu/Menu";
 
 const JoinGame = () => {
     const [selectedComponent, setSelectedComponent] = useState<React.ReactElement | null>(null);

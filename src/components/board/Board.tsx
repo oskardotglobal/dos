@@ -1,0 +1,68 @@
+import type {BoardProps} from "boardgame.io/react";
+import {GameState, SerializableGameState} from "$/lib/types";
+import React from "react";
+import Background from "$/components/board/Background";
+
+export default function Board(props: BoardProps<SerializableGameState>) {
+    const G = GameState.deserialize(props.G);
+    let mainDeck = new MainDeck(G, 0);
+    return (<div>
+            <Background/>
+            {mainDeck.initializeDeck()}
+        </div>);
+}
+
+class MainDeck {
+    deck: any;
+    positions: {[key: number]: {x: number, empty: boolean}};
+
+    constructor(game: any, player: any) {
+        const playerData = game.players[player];
+        this.deck = playerData.hand;
+
+        this.positions = {
+            1: {x: 321, empty: true},
+            2: {x: 381, empty: true},
+            3: {x: 441, empty: true},
+            4: {x: 501, empty: true},
+            5: {x: 561, empty: true},
+            6: {x: 621, empty: true},
+            7: {x: 681, empty: true},
+            8: {x: 741, empty: true},
+            9: {x: 801, empty: true},
+            10: {x: 861, empty: true},
+            11: {x: 921, empty: true},
+            12: {x: 981, empty: true}
+        };
+    }
+
+    toDeck(card: {"type":string,"color":string,"id":number}) {
+        let images = [];
+        if (this.deck.length <= Object.keys(this.positions).length) {
+            let i = 1;
+            for (card of this.deck) {
+                if (this.positions[i].empty) {
+                    images.push(this.cardToImage(card, this.positions[i].x, 565));
+                    this.positions[i].empty = false;
+                }
+                i++;
+            }
+        }
+        return images;
+    }
+
+    initializeDeck() {
+        let images = [];
+        for (const card of this.deck) {
+            images.push(...this.toDeck(card));
+        }
+        return images;
+    }
+
+    cardToImage(card: {"type":string,"color":string,"id":number}, x: number, yTop: number) {
+        return (
+            <img src={`/assets/${card.color}_${card.type}.png`} alt="card"
+                 style={{position: 'absolute', top: yTop, left: x, width: '138px', height: '205px'}}/>
+        )
+    }
+}
