@@ -1,1 +1,1 @@
-Git ist ein Tool, dass als Versionskontrollsystem fungiert und für die Versionskontrolle von software benutzt wird. 
+Git ist ein Tool, das als Versionskontrollsystem fungiert und für die Versionskontrolle von Software benutzt wird. 
