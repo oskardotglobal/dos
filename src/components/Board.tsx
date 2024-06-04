@@ -1,10 +1,8 @@
 import type {BoardProps} from "boardgame.io/react";
-import {useEffect, useMemo} from "react";
 import {GameState, SerializableGameState} from "$/lib/types";
 
 export default function Board(props: BoardProps<SerializableGameState>) {
     const G = GameState.deserialize(props.G);
-    useEffect(() => G.serialize(props.G), [G]);
 
     return (
         <div>
