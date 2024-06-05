@@ -1,6 +1,6 @@
 import type {BoardProps} from "boardgame.io/react";
 import {GameState, SerializableGameState} from "$/lib/api";
-import React, {useMemo} from "react";
+import {useMemo} from "react";
 import Background from "$/components/board/Background";
 import Hand from "$/components/board/Hand";
 import DiscardPile from "$/components/board/DiscardPile";
@@ -11,17 +11,20 @@ import Enemy from "$/components/board/Enemy";
 export default function Board(props: BoardProps<SerializableGameState>) {
     const G = useMemo(() => GameState.deserialize(props.G), [props.G]);
 
-    assert(props.playerID !== null, "PlayerID should never be null");
-
     const otherPlayers = useMemo(() => {
-        // this assertion has to run twice due to changed scope
-        assert(props.playerID !== null, "PlayerID should never be null");
+        if (props.playerID === null) {
+            return null;
+        }
 
-        const allPlayers = props.ctx.playOrder;
-        allPlayers.splice(allPlayers.indexOf(props.playerID))
+        const allPlayers = [...props.ctx.playOrder];
+        allPlayers.splice(allPlayers.indexOf(props.playerID), 1);
 
         return allPlayers;
     }, [props.playerID, props.ctx.playOrder]);
+
+    if (props.playerID === null || otherPlayers === null) {
+        return <></>
+    }
 
     return <main>
         <Background/>
