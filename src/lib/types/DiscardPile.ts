@@ -24,6 +24,7 @@ export class DiscardPile implements Serializable<DiscardPile> {
         return newCard.color === this.card.value.color;
     }
 
+    // TODO: sort deck sometime
     public put(deck: Deck, card: Card) {
         if (card.type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR]) {
             const card = this.card;
