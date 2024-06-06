@@ -13,7 +13,7 @@ export const Play: Move<SerializableGameState> = ({
     const G = GameState.deserialize(g);
 
     const player = G.getPlayer(playerID);
-    const hand = player.getHand()
+    const hand = player.getHand();
 
     if (
         O.getOrElse(() => Cards.BLUE_EIGHT)(G.discardPile.peek()).type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR]
@@ -51,8 +51,8 @@ export const Play: Move<SerializableGameState> = ({
         case CardType.SKIP:
             G.serialize(g);
 
-            const currentIndex = ctx.playOrder.indexOf(playerID) % ctx.numPlayers;
-            events.endTurn({next: ctx.playOrder[currentIndex + 2]});
+            const currentIndex = ctx.playOrder.indexOf(playerID);
+            events.endTurn({next: ctx.playOrder[(currentIndex + 2) % ctx.numPlayers]});
             break;
     }
 
