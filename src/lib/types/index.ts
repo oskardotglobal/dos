@@ -6,4 +6,4 @@ export * from "./GameState";
 export * from "./Player";
 export * from "./DiscardPile";
 export * from "./Deck";
-export * from "./Serializer";
+export * from "./Serializable";
