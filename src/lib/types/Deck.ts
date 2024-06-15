@@ -3,7 +3,7 @@ import {RandomAPI} from "boardgame.io/dist/types/src/plugins/random/random";
 import {optionOf} from "$/lib/functions";
 import type * as O from "fp-ts/Option";
 
-export class Deck implements Serializable<Deck> {
+export class Deck implements Serializable<Deck, SerializableDeck> {
     private readonly cards: Card[];
 
     private constructor(cards: Card[]) {
@@ -18,17 +18,14 @@ export class Deck implements Serializable<Deck> {
         this.cards.unshift(card);
     }
 
-    public deserialize(value: string): Deck {
-        const object: SerializableDeck = JSON.parse(value);
+    public deserialize(object: SerializableDeck): Deck {
         return new Deck(object.cards);
     }
 
-    public serialize(): string {
-        const object = <SerializableDeck>{
+    public serialize(): SerializableDeck {
+        return <SerializableDeck>{
             cards: this.cards,
         };
-
-        return JSON.stringify(object);
     }
 
     public static create(random: RandomAPI) {
@@ -46,6 +43,6 @@ export class Deck implements Serializable<Deck> {
 
 }
 
-interface SerializableDeck {
+export interface SerializableDeck {
     cards: Card[];
 }

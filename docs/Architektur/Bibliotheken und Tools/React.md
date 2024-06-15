@@ -1,6 +1,7 @@
 # React
 
 = Bibliothek, um dynamisch den HTML-Inhalt einer Seite zu verändern (ohne die Seite neuzuladen), wenn sich bestimmte Variablen (sog. State) ändern. Dies nennt man "Reactivity". Deshalb braucht man auch nur eine HTML-Datei.
+
 ## Grundprinzipien
 
 > **Root**  

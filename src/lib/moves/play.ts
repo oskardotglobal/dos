@@ -43,6 +43,7 @@ export const Play: Move<SerializableGameState> = ({
 
     switch (pickedCard.type) {
         case CardType.REVERSE:
+            G.reverseTurnOrder();
             break;
         case CardType.WISH:
         case CardType.WISH_PLUS_FOUR:
@@ -55,8 +56,7 @@ export const Play: Move<SerializableGameState> = ({
         case CardType.SKIP:
             G.serialize(g);
 
-            const currentIndex = ctx.playOrder.indexOf(playerID);
-            events.endTurn({next: ctx.playOrder[(currentIndex + 2) % ctx.numPlayers]});
+            events.endTurn({next: ctx.playOrder[(ctx.playOrderPos + 2) % ctx.numPlayers]});
             break;
     }
 

@@ -1,8 +1,8 @@
-export interface Serializable<T> {
-    serialize(): string;
+export interface Serializable<T, SerializableT> {
+    serialize(): SerializableT;
     /**
      * @static
      * Call with T.prototype.serialize(). DO NOT CALL ON INSTANCES
      */
-    deserialize(value: string): T;
+    deserialize(value: SerializableT): T;
 }
