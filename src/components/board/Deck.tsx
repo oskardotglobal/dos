@@ -65,7 +65,7 @@ export default function Deck({player, playerIndex}: { player: Player, playerInde
 
                     if (playerIndex === 0) {
                         return <img
-                            src={`/assets/${card.color}_${card.type}.png`}
+                            src={`/public/img/${card.color}_${card.type}.png`}
                             alt="card"
                             style={style}
                             className={"card-player-0"}

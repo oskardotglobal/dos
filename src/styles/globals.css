@@ -9,7 +9,7 @@
 
     background-size: cover;
     background-position: center;
-    background-image: url("/assets/BLANK.png");
+    background-image: url("/public/img/BLANK.png");
 }
 
 .card-player-1 {
@@ -19,7 +19,7 @@
 
     background-size: cover;
     background-position: center;
-    background-image: url("/assets/BLANK_L.png");
+    background-image: url("/public/img/BLANK_L.png");
 }
 
 .card-player-2 {
@@ -29,7 +29,7 @@
 
     background-size: cover;
     background-position: center;
-    background-image: url("/assets/BLANK_R.png");
+    background-image: url("/public/img/BLANK_R.png");
 }
 
 .card-player-3 {
@@ -39,5 +39,5 @@
 
     background-size: cover;
     background-position: center;
-    background-image: url("/assets/BLANK.png");
+    background-image: url("/public/img/BLANK.png");
 }
