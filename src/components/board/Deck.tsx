@@ -65,15 +65,15 @@ export default function Deck({player, playerIndex}: { player: Player, playerInde
 
                     if (playerIndex === 0) {
                         return <img
-                            src={`/img/${card.color}_${card.type}.png`}
-                            alt="card"
+                            src={`/cards/${card.id}.png`}
                             style={style}
-                            className={"card-player-0"}
+                            alt={""}
+                            className={"card card-player-0"}
                             key={i}
                         />;
                     }
 
-                    return <div className={`card-player-${playerIndex}`} style={style} key={playerIndex + i}/>
+                    return <div className={`card card-player-${playerIndex}`} style={style} key={playerIndex + i}/>
                 })
         }
     </>
