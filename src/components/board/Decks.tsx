@@ -2,7 +2,7 @@ import React from "react";
 
 export class MainDeck {
     deck: any;
-    positions: {[key: number]: {x: number, empty: boolean}};
+    positions: { [key: number]: { x: number, empty: boolean } };
 
     constructor(game: any, player: any) {
         const playerData = game.players[player];
@@ -24,7 +24,7 @@ export class MainDeck {
         };
     }
 
-    toDeck(card: {"type":string,"color":string,"id":number}) {
+    toDeck(card: { "type": string, "color": string, "id": number }) {
         let images = [];
         if (this.deck.length <= Object.keys(this.positions).length) {
             let i = 1;
@@ -47,7 +47,7 @@ export class MainDeck {
         return images;
     }
 
-    cardToImage(card: {"type":string,"color":string,"id":number}, x: number, yTop: number) {
+    cardToImage(card: { "type": string, "color": string, "id": number }, x: number, yTop: number) {
         return (
             <img src={`/assets/${card.color}_${card.type}.png`} alt="card"
                  style={{position: 'absolute', top: yTop, left: x, width: '138px', height: '205px'}}/>
@@ -58,7 +58,7 @@ export class MainDeck {
 
 export class Enemy1Deck {
     deck: any;
-    positions: {[key: number]: {y: number, empty: boolean}};
+    positions: { [key: number]: { y: number, empty: boolean } };
 
     constructor(game: any, player: any) {
         const playerData = game.players[player];
@@ -78,7 +78,7 @@ export class Enemy1Deck {
         };
     }
 
-    toDeck(card: {"type":string,"color":string,"id":number}) {
+    toDeck(card: { "type": string, "color": string, "id": number }) {
         let images = [];
         if (this.deck.length <= Object.keys(this.positions).length) {
             let i = 1;
@@ -112,7 +112,7 @@ export class Enemy1Deck {
 
 export class Enemy2Deck {
     deck: any;
-    positions: {[key: number]: {y: number, empty: boolean}};
+    positions: { [key: number]: { y: number, empty: boolean } };
 
     constructor(game: any, player: any) {
         const playerData = game.players[player];
@@ -132,7 +132,7 @@ export class Enemy2Deck {
         };
     }
 
-    toDeck(card: {"type":string,"color":string,"id":number}) {
+    toDeck(card: { "type": string, "color": string, "id": number }) {
         let images = [];
         if (this.deck.length <= Object.keys(this.positions).length) {
             let i = 1;
@@ -166,7 +166,7 @@ export class Enemy2Deck {
 
 export class Enemy3Deck {
     deck: any;
-    positions: {[key: number]: {x: number, empty: boolean}};
+    positions: { [key: number]: { x: number, empty: boolean } };
 
     constructor(game: any, player: any) {
         const playerData = game.players[player];
@@ -185,7 +185,7 @@ export class Enemy3Deck {
         };
     }
 
-    toDeck(card: {"type":string,"color":string,"id":number}) {
+    toDeck(card: { "type": string, "color": string, "id": number }) {
         let images = [];
         if (this.deck.length <= Object.keys(this.positions).length) {
             let i = 1;
@@ -208,7 +208,7 @@ export class Enemy3Deck {
         return images;
     }
 
-    cardToImage(card: {"type":string,"color":string,"id":number}, x: number, yTop: number) {
+    cardToImage(card: { "type": string, "color": string, "id": number }, x: number, yTop: number) {
         return (
             <img src={`/assets/CARD.png`} alt="card"
                  style={{position: 'absolute', top: yTop, left: x, width: '109px', height: '161px'}}/>

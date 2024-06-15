@@ -1,4 +1,3 @@
-export * from "./card";
 export * from "./option";
 
 export function err(e: string): never {

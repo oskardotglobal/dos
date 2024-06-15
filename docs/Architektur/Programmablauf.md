@@ -21,16 +21,7 @@ Deshalb konvertieren wir die eine Form in die andere mit der `serialize` und `de
 Besonderheit: Die serialisierte Form von `G` nennen wir `g`.
 
 Die Methoden `serialize` und `deserialize` sind auf dem `Serializable`-Interface (`src/lib/types/Serializable.ts`) deklariert. Alle Klassen außer `GameState` implentieren dieses Interface.    
-Sie haben immer den folgenden Ablauf:
-
-`serialize`
-- Wir erstellen ein Objekt des serialisierbaren Typen
-- Das Objekt wird zu einem String mit `JSON.stringify` konvertiert
-
-`deserialize`
-- Die Klasse hat einen Konstruktor, der alle Eigenschaften der Klasse als Argument nimmt
-- Wir konvertieren den JSON-String wieder zu dem serialisierbaren Objekt mit `JSON.parse`
-- Jetzt kann der Konstruktor mit den neuen Werten wieder aufgerufen werden.
+Die `serialize`-Methode erstellt immer ein Objekt des serialisierbaren Typen (normales Objekt) und die `deserialize`-Methode erstellt aus dem normalen, serialisierbaren Objekt eine Instanz einer Klasse, indem sie den Konstruktor aufruft.
 
 ### Problem: In JavaScript/Typescript können Klassen keine polymorphen Konstruktoren haben
 

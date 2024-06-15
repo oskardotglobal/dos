@@ -1,8 +1,7 @@
 import {Card, Deck, Serializable} from "$/lib/types";
 import * as O from "fp-ts/Option";
-import {string} from "fp-ts";
 
-export class Player implements Serializable<Player> {
+export class Player implements Serializable<Player, SerializablePlayer> {
     private readonly hand: Card[];
 
     private constructor(hand: Card[]) {
@@ -25,17 +24,14 @@ export class Player implements Serializable<Player> {
         }
     }
 
-    public deserialize(value: string): Player {
-        const object: SerializablePlayer = JSON.parse(value);
+    public deserialize(object: SerializablePlayer): Player {
         return new Player(object.hand);
     }
 
-    public serialize(): string {
-        const object = <SerializablePlayer>{
+    public serialize(): SerializablePlayer {
+        return <SerializablePlayer>{
             hand: this.hand,
         };
-
-        return JSON.stringify(object);
     }
 
     public static create(deck: Deck) {
@@ -55,6 +51,6 @@ export class Player implements Serializable<Player> {
     }
 }
 
-interface SerializablePlayer {
+export interface SerializablePlayer {
     hand: Card[]
 }
