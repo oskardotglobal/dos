@@ -5,12 +5,14 @@ import LoadingScreen from "$/components/menu/LoadingScreen";
 import {Local} from "boardgame.io/multiplayer";
 
 export default function NewGame() {
-    return Client({
+    const Component = Client({
         game: DosGame,
-        numPlayers: 2,
+        numPlayers: 4,
         board: Board,
         loading: LoadingScreen,
         multiplayer: Local(),
         debug: true,
-    });
+    })
+
+    return <Component />;
 }
