@@ -2,42 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-.card-player-0 {
+.card {
     position: absolute;
-    width: 138px;
-    height: 205px;
-
     background-size: cover;
     background-position: center;
-    background-image: url("/img/BLANK.png");
+    background-image: url("/cards/back.png");
+}
+
+@keyframes card-hover {
+    0% { transform: translateY(-20px); }
+    25% { transform: translateY(-40px); }
+    50% { transform: translateY(-40px); }
+    100% { transform: translateY(0); }
+}
+
+.card-player-0 {
+    width: 138px;
+    height: 205px;
+}
+
+.card-player-0:hover {
+    animation: card-hover 3s;
 }
 
 .card-player-1 {
-    position: absolute;
-    width: 160px;
-    height: 107px;
+    height: 160px;
+    width: 107px;
 
-    background-size: cover;
-    background-position: center;
-    background-image: url("/img/BLANK_L.png");
+    transform: rotate(90deg);
 }
 
 .card-player-2 {
-    position: absolute;
-    width: 160px;
-    height: 107px;
+    height: 160px;
+    width: 107px;
 
-    background-size: cover;
-    background-position: center;
-    background-image: url("/img/BLANK_R.png");
+    transform: rotate(-90deg);
 }
 
 .card-player-3 {
-    position: absolute;
     width: 109px;
     height: 161px;
 
-    background-size: cover;
-    background-position: center;
-    background-image: url("/img/BLANK.png");
+    transform: rotate(180deg);
 }
