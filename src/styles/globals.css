@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.card-player-0 {
+    position: absolute;
+    width: 138px;
+    height: 205px;
+
+    background-size: cover;
+    background-position: center;
+    background-image: url("/assets/BLANK.png");
+}
+
+.card-player-1 {
+    position: absolute;
+    width: 160px;
+    height: 107px;
+
+    background-size: cover;
+    background-position: center;
+    background-image: url("/assets/BLANK_L.png");
+}
+
+.card-player-2 {
+    position: absolute;
+    width: 160px;
+    height: 107px;
+
+    background-size: cover;
+    background-position: center;
+    background-image: url("/assets/BLANK_R.png");
+}
+
+.card-player-3 {
+    position: absolute;
+    width: 109px;
+    height: 161px;
+
+    background-size: cover;
+    background-position: center;
+    background-image: url("/assets/BLANK.png");
+}

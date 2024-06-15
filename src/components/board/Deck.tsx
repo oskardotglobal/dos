@@ -1,8 +1,8 @@
 import {Player} from "$/lib/types";
 
-/*
-Main player positions
-[
+export default function Deck({player, playerIndex}: { player: Player, playerIndex: number }) {
+    const positions = [
+        [
             [321, 565],
             [381, 565],
             [441, 565],
@@ -16,10 +16,6 @@ Main player positions
             [921, 565],
             [981, 565]
         ],
- */
-
-export default function Deck({player, playerIndex}: { player: Player, playerIndex: number }) {
-    const positions = [
         [
             [1175, 114],
             [1175, 176],
@@ -57,34 +53,27 @@ export default function Deck({player, playerIndex}: { player: Player, playerInde
         ]
     ];
 
+    const hand = player.getHand();
+
     return <>
         {
-            player.getHand()
-                .slice(0, positions.length - 1)
-                .map(card => {
+            hand
+                .slice(0, Math.max(positions.length, hand.length))
+                .map((card, i, _) => {
+                    const [x, y] = positions[playerIndex][i];
+                    const style = {top: y, left: x};
+
                     if (playerIndex === 0) {
-                        return <img src={`/assets/${card.color}_${card.type}.png`} alt="card"
-                                    style={{
-                                        position: "absolute",
-                                        top: positions[playerIndex][1],
-                                        left: positions[playerIndex][0],
-                                        width: "138px",
-                                        height: "205px"
-                                    }}
+                        return <img
+                            src={`/assets/${card.color}_${card.type}.png`}
+                            alt="card"
+                            style={style}
+                            className={"card-player-0"}
+                            key={i}
                         />;
                     }
 
-                    if (playerIndex === 1) {
-                        return <img src={`/assets/BLANK_L.png`} alt="card"
-                                    style={{
-                                        position: 'absolute',
-                                        top: positions[playerIndex][1],
-                                        left: positions[playerIndex][0],
-                                        width: '160px',
-                                        height: '107px'
-                                    }}
-                        />
-                    }
+                    return <div className={`card-player-${playerIndex}`} style={style} key={playerIndex + i}/>
                 })
         }
     </>
