@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 .card {
+    width: 138px;
+    height: 205px;
+
     position: absolute;
     background-size: cover;
     background-position: center;

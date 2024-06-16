@@ -2,6 +2,8 @@ import type {BoardProps} from "boardgame.io/react";
 import {GameState, SerializableGameState} from "$/lib/types";
 import React from "react";
 import Background from "$/components/board/Background";
+import Hand from "$/components/board/Hand";
+import DiscardPile from "$/components/board/DiscardPile";
 import Deck from "$/components/board/Deck";
 
 export default function Board(props: BoardProps<SerializableGameState>) {
@@ -9,7 +11,19 @@ export default function Board(props: BoardProps<SerializableGameState>) {
 
     return <main>
         <Background/>
-        {props.ctx.playOrder.map((id, i) => <Deck player={G.getPlayer(id)} playerIndex={i} key={i} />)}
-    </main>
 
+        <DiscardPile discardPile={G.discardPile}/>
+        <Deck moves={props.moves}/>
+
+        {
+            props.ctx.playOrder.map(
+                (id, i) => <Hand
+                    player={G.getPlayer(id)}
+                    moves={props.moves}
+                    playerIndex={i}
+                    key={i}
+                />
+            )
+        }
+    </main>
 }
