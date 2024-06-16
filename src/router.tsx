@@ -7,6 +7,9 @@ export interface RouterState {
     redirect: (to: ReactElement) => void
 }
 
+// TODO: Replace zustand with Redux to keep bundle size down
+//       since boardgame.io ships redux already
+
 export const useRouter = create<RouterState>()((set) => ({
     component: <Menu />,
 

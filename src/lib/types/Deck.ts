@@ -32,7 +32,7 @@ export class Deck implements Serializable<Deck, SerializableDeck> {
         let cards: Card[] = [];
 
         for (const card of Object.values(Cards)) {
-            for (let i = 0; i < (card.color == CardColor.COLORLESS ? 4 : 2); i++) {
+            for (let i = 0; i < (card.color === CardColor.COLORLESS ? 4 : 2); i++) {
                 cards.push(card);
             }
         }

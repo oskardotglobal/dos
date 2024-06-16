@@ -3,7 +3,7 @@
 Es gibt genau eine HTML-Datei, die `index.html`.
 Diese Datei lädt dann die `src/main.tsx`, welche der Eintrittspunkt von React ist.
 
-Dann lädt React den `Menu`-Component (`src/components/menu/Menu.tsx`). Standardmäßig gibt dies das Menü zurück.
+Dann lädt React den `App`-Component (`src/components/App.tsx`), welcher das Menu zurückgibt und das Routing verwaltet.
 Die Buttons im Menü setzen einen State namens `selectedComponent`. Wenn dieser nicht `null` ist, dann wird er statt dem Menü vom Menü-Component zurückgegeben.
 
 Wenn das Spiel gestartet werden soll, wird der New Game Button gedrückt und das Menü mit dem New-Game Component (`src/components/menu/NewGame.tsx`) ersetzt.
@@ -26,7 +26,9 @@ Die `serialize`-Methode erstellt immer ein Objekt des serialisierbaren Typen (no
 ### Problem: In JavaScript/Typescript können Klassen keine polymorphen Konstruktoren haben
 
 Wir haben Logik in den Konstruktoren, wie z.B. die Befüllung des Decks in der Klasse `Deck`.
-Für die Lösung des obrigen brauchen wir aber eine Konstruktor mit allen Argumenten, also können wir die Logik nicht mehr in Konstruktor packen.
+Für die Lösung des obrigen Problems brauchen wir aber eine Konstruktor mit allen Argumenten, 
+also können wir die Logik nicht mehr in Konstruktor packen.
+
 
 Lösung:
 
