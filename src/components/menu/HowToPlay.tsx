@@ -1,6 +1,11 @@
 import Menu from "$/components/menu/Menu";
 import {useRouter} from "$/router";
 
+/**
+ * The component representing the "How to play" page. <br />
+ * It contains the written game's rules.
+ * @component
+ */
 export default function HowToPlay() {
     const router = useRouter();
 

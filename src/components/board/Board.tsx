@@ -1,13 +1,13 @@
 import type {BoardProps} from "boardgame.io/react";
-import {GameState, SerializableGameState} from "$/lib/types";
-import React from "react";
+import {GameState, SerializableGameState} from "$/lib/api";
+import React, {useMemo} from "react";
 import Background from "$/components/board/Background";
 import Hand from "$/components/board/Hand";
 import DiscardPile from "$/components/board/DiscardPile";
 import Deck from "$/components/board/Deck";
 
 export default function Board(props: BoardProps<SerializableGameState>) {
-    const G = GameState.deserialize(props.G);
+    const G = useMemo(() => GameState.deserialize(props.G), [props.G]);
 
     return <main>
         <Background/>

@@ -1,15 +1,26 @@
 import type {Move} from "boardgame.io";
-import {CardColor, Cards, CardType, GameState, SerializableGameState} from "$/lib/types";
-import {assert} from "$/lib/functions";
+import {CardColor, CardType, GameState, SerializableGameState} from "$/lib/api";
+import {assert} from "$/lib/util/assertions";
 import {INVALID_MOVE} from "boardgame.io/core";
-import * as O from "fp-ts/Option";
 
-export const Play: Move<SerializableGameState> = ({
-                                                      G: g,
-                                                      events,
-                                                      playerID,
-                                                      ctx
-                                                  }, cardID: number, wishedColor: CardColor = CardColor.COLORLESS) => {
+/**
+ * Plays a card from the current player's hand. <br />
+ * Handles special card effects like reverse, skip, wish and +2/+4 cards.
+ *
+ * @throws AssertionError if there is no card with the given index in the player's hand.
+ * @param cardID The index of the card in the player's hand.
+ * @param wishedColor The wished color if the card is a wish card.
+ *
+ * @move
+ */
+export const Play: Move<SerializableGameState> = (args, cardID: number, wishedColor: CardColor = CardColor.COLORLESS) => {
+    const {
+        G: g,
+        events,
+        playerID,
+        ctx
+    } = args;
+
     const G = GameState.deserialize(g);
 
     const player = G.getPlayer(playerID);
@@ -17,7 +28,7 @@ export const Play: Move<SerializableGameState> = ({
 
     if (
         // ist die Karte auf dem Stapel eine +2 oder +4?
-        O.getOrElse(() => Cards.BLUE_EIGHT)(G.discardPile.peek()).type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR]
+        G.discardPile.peek().type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR]
         // und hat der Spieler keine +2 oder +4 auf der Hand (die Bedingung, dass der Typ eine +2 oder +4 ist, ist für keine karte auf der Hand wahr)
         && !hand.some((card) => card.type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR])
     ) {
@@ -38,7 +49,7 @@ export const Play: Move<SerializableGameState> = ({
         return INVALID_MOVE;
     }
 
-    delete hand[cardID];
+    hand.splice(cardID, 1);
     G.discardPile.put(G.deck, pickedCard);
 
     switch (pickedCard.type) {
@@ -48,9 +59,7 @@ export const Play: Move<SerializableGameState> = ({
         case CardType.WISH:
         case CardType.WISH_PLUS_FOUR:
             const card = G.discardPile.peek();
-            if (O.isSome(card)) {
-                card.value.color = wishedColor;
-            }
+            card.color = wishedColor;
 
             break;
         case CardType.SKIP:

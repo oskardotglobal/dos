@@ -2,6 +2,11 @@ import React, {useRef, useState} from "react";
 import Menu from "$/components/menu/Menu";
 import {useRouter} from "$/router";
 
+/**
+ * A join game screen component that lets you enter a 6-digit code (to enter a game). <br />
+ * Currently does absolutely nothing.
+ * @component
+ */
 export default function JoinGame() {
     const router = useRouter();
 

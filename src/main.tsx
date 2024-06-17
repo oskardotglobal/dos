@@ -10,6 +10,8 @@ if ($root === null) throw "Can't get root";
 const root = createRoot($root);
 
 root.render(
+    // enable strict mode, which enhances DX
+    // then, render the App component
     <React.StrictMode>
         <App/>
     </React.StrictMode>
