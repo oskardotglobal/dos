@@ -1,6 +1,18 @@
-import {Card, Player} from "$/lib/types";
-import {assert} from "$/lib/functions";
+import {CardColor, Player} from "$/lib/api";
+import {assert} from "$/lib/util/assertions";
+import {useMemo} from "react";
 
+/**
+ * A react component representing the hand of a player. <br />
+ *
+ * Renders the cards in the player's hand.
+ * The cards are positioned based on the player index.
+ * The cards are clickable and call the `Play` action when clicked.
+ *
+ * Should a card be a wish card, the component renders a set of buttons allowing the player to choose the wished color.
+ *
+ * @constructor
+ */
 export default function Hand(props: {
     player: Player,
     playerIndex: number,
@@ -29,7 +41,6 @@ export default function Hand(props: {
             [1175, 356],
             [1175, 410],
             [1175, 476],
-            [1175, 741],
             [1175, 536],
             [1175, 596]
         ],
@@ -42,8 +53,6 @@ export default function Hand(props: {
             [125, 410],
             [125, 476],
             [125, 741],
-            [125, 536],
-            [125, 596]
         ],
         [
             [424, 34],
@@ -58,23 +67,39 @@ export default function Hand(props: {
         ]
     ];
 
-    const hand = props.player.getHand();
+    const hand = useMemo(() => props.player.getHand(), [props.player]);
 
     return <>
         {
             hand
                 .slice(0, Math.min(positions[props.playerIndex].length, hand.length))
-                .shift() || ([] as Card[])
                 .map((card, i, _) => {
                     const [x, y] = positions[props.playerIndex][i];
-                    const style = {top: y, left: x};
 
                     assert(card !== undefined, "No such card");
+
+                    if (props.playerIndex === 0 && card.color === CardColor.COLORLESS) {
+                        return <div key={i}>
+                            <img
+                                src={`/cards/${card.id}.png`}
+                                style={{top: y, left: x}}
+                                alt={""}
+                                className={"card card-player-0"}
+                            />
+
+                            <div className={"wish-buttons"} style={{top: y + 200, left: x}}>
+                                <button className={"wish-buttons-red"} onClick={() => props.moves.Play(i, CardColor.RED)}>r</button>
+                                <button className={"wish-buttons-green"} onClick={() => props.moves.Play(i, CardColor.GREEN)}>g</button>
+                                <button className={"wish-buttons-blue"} onClick={() => props.moves.Play(i, CardColor.BLUE)}>b</button>
+                                <button className={"wish-buttons-yellow"} onClick={() => props.moves.Play(i, CardColor.YELLOW)}>y</button>
+                            </div>
+                        </div>
+                    }
 
                     if (props.playerIndex === 0) {
                         return <img
                             src={`/cards/${card.id}.png`}
-                            style={style}
+                            style={{top: y, left: x}}
                             alt={""}
                             className={"card card-player-0"}
                             key={i}
@@ -82,8 +107,11 @@ export default function Hand(props: {
                         />
                     }
 
-                    return <div className={`card card-player-${props.playerIndex}`} style={style}
-                                key={props.playerIndex + i}/>
+                    return <div
+                        className={`card card-player-${props.playerIndex}`}
+                        style={{top: y, left: x}}
+                        key={props.playerIndex + i}
+                    />
                 })
         }
     </>

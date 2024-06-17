@@ -4,14 +4,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "serve": "bun run server.ts"
   },
   "dependencies": {
+    "@types/uuid": "^9.0.8",
     "boardgame.io": "^0.50.2",
-    "fp-ts": "^2.16.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
+    "uuid": "^10.0.0",
     "vitawind": "^2.0.0",
     "zustand": "^4.5.2"
   },
@@ -20,7 +22,6 @@
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^1.0.7",
     "boardgame.io": "^0.50.2",
-    "fp-ts": "^2.16.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "typescript": "^4.4.4",

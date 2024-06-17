@@ -2,9 +2,24 @@ import NewGame from "$/components/menu/NewGame";
 import JoinGame from "$/components/menu/JoinGame";
 import HowToPlay from "$/components/menu/HowToPlay";
 import {useRouter} from "$/router";
+import {Lobby} from "boardgame.io/react";
+import Board from "$/components/board/Board";
+import {DosGame} from "$/lib/game";
+import {LobbyClient} from "boardgame.io/client";
 
+/**
+ * The main menu component. <br />
+ * Redirects to either the New Game screen containing the actual game, the join game screen or the written rules.
+ * @see NewGame
+ * @see JoinGame
+ * @see HowToPlay
+ * @component
+ */
 export default function Menu() {
     const router = useRouter();
+    const lobbyClient = new LobbyClient({ server: "http://localhost:8000" });
+
+
 
     return <main
         className="flex flex-col items-center justify-center h-screen bg-gradient-to-t from-menu-gradient-start via-menu-gradient-transition to-menu-gradient-end">

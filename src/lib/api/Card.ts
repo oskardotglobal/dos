@@ -1,4 +1,4 @@
-import type {CardType, CardColor} from "$/lib/types";
+import type {CardType, CardColor} from "$/lib/api";
 
 export interface Card {
     type: CardType;

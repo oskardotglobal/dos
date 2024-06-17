@@ -1,3 +1,11 @@
+/**
+ * Background component. Renders the background of the game board.
+ * It includes various div elements with specific styles and classes to create the visual representation of the game board.
+ *
+ * Each div represents a different part of the game board, such as the player's deck, the enemy's deck, and the game area.
+ *
+ * @component
+ */
 export default function Background() {
     return <div
         className="h-screen bg-gradient-to-t from-menu-gradient-start via-menu-gradient-transition to-menu-gradient-end">
