@@ -3,14 +3,8 @@ import {DosGame} from "$/lib/game";
 import Board from "$/components/board/Board";
 import LoadingScreen from "$/components/menu/LoadingScreen";
 import {SocketIO} from "boardgame.io/multiplayer";
-
-const Component = Client({
-    game: DosGame,
-    board: Board,
-    loading: LoadingScreen,
-    multiplayer: SocketIO({ server: "localhost:8000" }),
-    debug: true,
-});
+import {useMatch} from "$/lib/match";
+import {assert} from "$/lib/util/assertions";
 
 /**
  * A react component representing the game screen. Renders the boardgame.io client. <br />
@@ -23,5 +17,23 @@ const Component = Client({
  * @component
  */
 export default function NewGame() {
-    return <Component playerID={"0"}/>
+    const [matchID, playerID, playerCredentials] = useMatch();
+
+    if (matchID === null || playerID === null || playerCredentials === null) {
+        return <></>
+    }
+
+    const Component = Client({
+        game: DosGame,
+        board: Board,
+        loading: LoadingScreen,
+        multiplayer: SocketIO({server: "http://localhost:8000"}),
+        debug: true,
+    });
+
+    return <Component
+        matchID={matchID}
+        playerID={playerID}
+        credentials={playerCredentials}
+    />
 }

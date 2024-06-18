@@ -1,6 +1,6 @@
 import React, {useRef, useState} from "react";
 import Menu from "$/components/menu/Menu";
-import {useRouter} from "$/router";
+import {useRouter} from "$/lib/router";
 
 /**
  * A join game screen component that lets you enter a 6-digit code (to enter a game). <br />
