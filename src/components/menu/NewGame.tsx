@@ -1,20 +1,39 @@
-import React from "react";
 import {Client} from "boardgame.io/react";
 import {DosGame} from "$/lib/game";
 import Board from "$/components/board/Board";
 import LoadingScreen from "$/components/menu/LoadingScreen";
-import {Local} from "boardgame.io/multiplayer";
+import {SocketIO} from "boardgame.io/multiplayer";
+import {useMatch} from "$/lib/match";
+import {assert} from "$/lib/util/assertions";
 
-const App = Client({
-    game: DosGame,
-    numPlayers: 2,
-    board: Board,
-    loading: LoadingScreen,
-    multiplayer: Local(),
-    debug: true,
-});
+/**
+ * A react component representing the game screen. Renders the boardgame.io client. <br />
+ * The boardgame.io client then renders the `Board` and passes the game data as defined by `DosGame` to it.
+ * @See DosGame
+ * @See Board
+ * @see Client
+ * @link https://boardgame.io/documentation/#/api/Client
+ * @link https://boardgame.io/documentation/#/
+ * @component
+ */
+export default function NewGame() {
+    const [matchID, playerID, playerCredentials] = useMatch();
 
+    if (matchID === null || playerID === null || playerCredentials === null) {
+        return <></>
+    }
 
-const NewGame = () => <App />;
+    const Component = Client({
+        game: DosGame,
+        board: Board,
+        loading: LoadingScreen,
+        multiplayer: SocketIO({server: "http://localhost:8000"}),
+        debug: true,
+    });
 
-export default NewGame;
+    return <Component
+        matchID={matchID}
+        playerID={playerID}
+        credentials={playerCredentials}
+    />
+}

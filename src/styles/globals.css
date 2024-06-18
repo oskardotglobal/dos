@@ -1,3 +1,89 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.wish-buttons {
+    position: absolute;
+    width: 138px;
+
+    display: flex;
+    justify-content: center;
+
+    color: rgba(255, 255, 255, 0.97);
+}
+
+.wish-buttons button {
+    width: 1rem;
+}
+
+.wish-buttons-red {
+    background-color: #D72600;
+}
+
+.wish-buttons-green {
+    background-color: #44cf08;
+}
+
+.wish-buttons-yellow {
+    background-color: #edd433;
+    color: black;
+}
+
+.wish-buttons-blue {
+    background-color: #0956BF;
+}
+
+.card {
+    width: 138px;
+    height: 205px;
+
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    background-image: url("/cards/back.png");
+}
+
+@keyframes card-hover {
+    0% {
+        transform: translateY(-20px);
+    }
+    25% {
+        transform: translateY(-40px);
+    }
+    50% {
+        transform: translateY(-40px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.card-player-0 {
+    width: 138px;
+    height: 205px;
+}
+
+.card-player-0:hover {
+    animation: card-hover 3s;
+}
+
+.card-player-1 {
+    height: 160px;
+    width: 107px;
+
+    transform: rotate(90deg);
+}
+
+.card-player-2 {
+    height: 160px;
+    width: 107px;
+
+    transform: rotate(-90deg);
+}
+
+.card-player-3 {
+    width: 109px;
+    height: 161px;
+
+    transform: rotate(180deg);
+}

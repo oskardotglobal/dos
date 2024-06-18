@@ -3,7 +3,7 @@
 Es gibt genau eine HTML-Datei, die `index.html`.
 Diese Datei lädt dann die `src/main.tsx`, welche der Eintrittspunkt von React ist.
 
-Dann lädt React den `Menu`-Component (`src/components/menu/Menu.tsx`). Standardmäßig gibt dies das Menü zurück.
+Dann lädt React den `App`-Component (`src/components/App.tsx`), welcher das Menu zurückgibt und das Routing verwaltet.
 Die Buttons im Menü setzen einen State namens `selectedComponent`. Wenn dieser nicht `null` ist, dann wird er statt dem Menü vom Menü-Component zurückgegeben.
 
 Wenn das Spiel gestartet werden soll, wird der New Game Button gedrückt und das Menü mit dem New-Game Component (`src/components/menu/NewGame.tsx`) ersetzt.
@@ -21,21 +21,14 @@ Deshalb konvertieren wir die eine Form in die andere mit der `serialize` und `de
 Besonderheit: Die serialisierte Form von `G` nennen wir `g`.
 
 Die Methoden `serialize` und `deserialize` sind auf dem `Serializable`-Interface (`src/lib/types/Serializable.ts`) deklariert. Alle Klassen außer `GameState` implentieren dieses Interface.    
-Sie haben immer den folgenden Ablauf:
-
-`serialize`
-- Wir erstellen ein Objekt des serialisierbaren Typen
-- Das Objekt wird zu einem String mit `JSON.stringify` konvertiert
-
-`deserialize`
-- Die Klasse hat einen Konstruktor, der alle Eigenschaften der Klasse als Argument nimmt
-- Wir konvertieren den JSON-String wieder zu dem serialisierbaren Objekt mit `JSON.parse`
-- Jetzt kann der Konstruktor mit den neuen Werten wieder aufgerufen werden.
+Die `serialize`-Methode erstellt immer ein Objekt des serialisierbaren Typen (normales Objekt) und die `deserialize`-Methode erstellt aus dem normalen, serialisierbaren Objekt eine Instanz einer Klasse, indem sie den Konstruktor aufruft.
 
 ### Problem: In JavaScript/Typescript können Klassen keine polymorphen Konstruktoren haben
 
 Wir haben Logik in den Konstruktoren, wie z.B. die Befüllung des Decks in der Klasse `Deck`.
-Für die Lösung des obrigen brauchen wir aber eine Konstruktor mit allen Argumenten, also können wir die Logik nicht mehr in Konstruktor packen.
+Für die Lösung des obrigen Problems brauchen wir aber einen Konstruktor mit allen Argumenten, 
+also können wir die Logik nicht mehr in Konstruktor packen.
+
 
 Lösung:
 
