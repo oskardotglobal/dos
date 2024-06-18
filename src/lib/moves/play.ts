@@ -17,13 +17,12 @@ export const Play: Move<SerializableGameState> = (args, cardID: number, wishedCo
     const {
         G: g,
         events,
-        playerID,
         ctx
     } = args;
 
     const G = GameState.deserialize(g);
 
-    const player = G.getPlayer(playerID);
+    const player = G.getPlayer(ctx.currentPlayer);
     const hand = player.getHand();
 
     if (
@@ -42,7 +41,7 @@ export const Play: Move<SerializableGameState> = (args, cardID: number, wishedCo
         events.endTurn();
     }
 
-    assert(hand[cardID] !== undefined, `Card of player ${playerID} with id ${cardID} not found`);
+    assert(hand[cardID] !== undefined, `Card of player ${ctx.currentPlayer} with id ${cardID} not found`);
     const pickedCard = hand[cardID]!;
 
     if (!G.discardPile.canPlayOn(pickedCard)) {
