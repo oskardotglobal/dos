@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {LobbyClient} from "boardgame.io/client";
-import {LobbyAPI} from "boardgame.io";
 import {assert} from "$/lib/util/assertions";
+import {serverUrl} from "$/components/menu/NewGame";
 
 /**
  * A hook to get a match to join. <br />
@@ -15,7 +15,7 @@ export function useMatch(): [string | null, string | null, string | null] {
     const [playerID, setPlayerID] = useState<string | null>(null);
     const [playerCredentials, setPlayerCredentials] = useState<string | null>(null);
 
-    const client = new LobbyClient({server: "http://localhost:8000"});
+    const client = new LobbyClient({server: serverUrl});
 
     useEffect(() => {
         async function fetchMatch() {
