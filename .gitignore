@@ -119,3 +119,6 @@ dist
 
 # pnpm lock
 pnpm-lock.yaml
+
+# Plantuml exec
+.bin
