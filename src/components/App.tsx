@@ -1,4 +1,4 @@
-import {useRouter} from "$/router";
+import {useRouter} from "$/lib/router";
 
 /**
  * Wrapper component to render the current component as provided by the router
