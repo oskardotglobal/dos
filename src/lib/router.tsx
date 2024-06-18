@@ -26,7 +26,7 @@ export interface RouterState {
  * A React hook to return a reference to the router store. (router -> store -> state of component) <br />
  * Call `redirect` on the result to change the current component stored inside.
  * @returns {RouterState}
- * @function
+ * @hook
  */
 export const useRouter = create<RouterState>()((set) => ({
     component: <Menu />,

@@ -1,5 +1,5 @@
 import Menu from "$/components/menu/Menu";
-import {useRouter} from "$/router";
+import {useRouter} from "$/lib/router";
 
 /**
  * The component representing the "How to play" page. <br />
