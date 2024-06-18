@@ -13,12 +13,16 @@ export const Play: Move<SerializableGameState> = ({
     const G = GameState.deserialize(g);
 
     const player = G.getPlayer(playerID);
-    const hand = player.getHand()
+    const hand = player.getHand();
 
     if (
+        // ist die Karte auf dem Stapel eine +2 oder +4?
         O.getOrElse(() => Cards.BLUE_EIGHT)(G.discardPile.peek()).type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR]
+        // und hat der Spieler keine +2 oder +4 auf der Hand (die Bedingung, dass der Typ eine +2 oder +4 ist, ist für keine karte auf der Hand wahr)
         && !hand.some((card) => card.type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR])
     ) {
+        // dann muss der Spieler Strafkarten ziehen
+
         for (let i = 0; i < G.discardPile.getDrawAmount(); i++) {
             player.draw(G.deck);
         }
@@ -51,8 +55,8 @@ export const Play: Move<SerializableGameState> = ({
         case CardType.SKIP:
             G.serialize(g);
 
-            const currentIndex = ctx.playOrder.indexOf(playerID) % ctx.numPlayers;
-            events.endTurn({next: ctx.playOrder[currentIndex + 2]});
+            const currentIndex = ctx.playOrder.indexOf(playerID);
+            events.endTurn({next: ctx.playOrder[(currentIndex + 2) % ctx.numPlayers]});
             break;
     }
 
