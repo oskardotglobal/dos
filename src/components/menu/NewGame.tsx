@@ -4,7 +4,8 @@ import Board from "$/components/board/Board";
 import LoadingScreen from "$/components/menu/LoadingScreen";
 import {SocketIO} from "boardgame.io/multiplayer";
 import {useMatch} from "$/lib/match";
-import {assert} from "$/lib/util/assertions";
+
+export const serverUrl = "https://dos.oskar.global";
 
 /**
  * A react component representing the game screen. Renders the boardgame.io client. <br />
@@ -27,7 +28,7 @@ export default function NewGame() {
         game: DosGame,
         board: Board,
         loading: LoadingScreen,
-        multiplayer: SocketIO({server: "http://localhost:8000"}),
+        multiplayer: SocketIO({server: serverUrl}),
         debug: true,
     });
 
