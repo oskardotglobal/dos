@@ -1,21 +1,47 @@
 import type {BoardProps} from "boardgame.io/react";
-import {GameState, SerializableGameState} from "$/lib/types";
-import React from "react";
+import {GameState, SerializableGameState} from "$/lib/api";
+import React, {useMemo} from "react";
 import Background from "$/components/board/Background";
-import {Enemy1Deck, Enemy2Deck, Enemy3Deck, MainDeck} from "$/components/board/Decks";
+import Hand from "$/components/board/Hand";
+import DiscardPile from "$/components/board/DiscardPile";
+import Deck from "$/components/board/Deck";
+import {assert} from "$/lib/util/assertions";
+import Enemy from "$/components/board/Enemy";
 
 export default function Board(props: BoardProps<SerializableGameState>) {
-    const G = GameState.deserialize(props.G);
-    const mainDeck = new MainDeck(G, 0);
-    const enemy1Deck = new Enemy1Deck(G, 1);
-    const enemy2Deck = new Enemy2Deck(G, 1);
-    const enemy3Deck = new Enemy3Deck(G, 1);
-    return (<div>
-        <Background/>
-        {mainDeck.initializeDeck()}
-        {enemy1Deck.initializeDeck()}
-        {enemy2Deck.initializeDeck()}
-        {enemy3Deck.initializeDeck()}
-    </div>);
+    const G = useMemo(() => GameState.deserialize(props.G), [props.G]);
 
+    assert(props.playerID !== null, "PlayerID should never be null");
+
+    const otherPlayers = useMemo(() => {
+        // this assertion has to run twice due to changed scope
+        assert(props.playerID !== null, "PlayerID should never be null");
+
+        const allPlayers = props.ctx.playOrder;
+        allPlayers.splice(allPlayers.indexOf(props.playerID))
+
+        return allPlayers;
+    }, [props.playerID, props.ctx.playOrder]);
+
+    return <main>
+        <Background/>
+
+        <DiscardPile discardPile={G.discardPile}/>
+        <Deck moves={props.moves}/>
+
+        <Hand
+            player={G.getPlayer(props.playerID)}
+            moves={props.moves}
+        />
+
+        {
+            otherPlayers.map(
+                (id, i) => <Enemy
+                    player={G.getPlayer(id)}
+                    playerIndex={i}
+                    key={i}
+                />
+            )
+        }
+    </main>
 }
