@@ -26,7 +26,7 @@ Die `serialize`-Methode erstellt immer ein Objekt des serialisierbaren Typen (no
 ### Problem: In JavaScript/Typescript können Klassen keine polymorphen Konstruktoren haben
 
 Wir haben Logik in den Konstruktoren, wie z.B. die Befüllung des Decks in der Klasse `Deck`.
-Für die Lösung des obrigen Problems brauchen wir aber eine Konstruktor mit allen Argumenten, 
+Für die Lösung des obrigen Problems brauchen wir aber einen Konstruktor mit allen Argumenten, 
 also können wir die Logik nicht mehr in Konstruktor packen.
 
 
