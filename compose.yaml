@@ -1,0 +1,21 @@
+networks:
+  traefik:
+    external: true
+
+services:
+  app:
+    build: .
+    image: ghcr.io/oskardotglobal/dos-api:latest
+    container_name: dos_api
+    networks:
+      traefik:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dos.entrypoints=websecure"
+      - "traefik.http.routers.dos.rule=Host(\"search.oskar.global\")"
+      - "traefik.http.routers.dos.tls=true"
+      - "traefik.http.routers.dos.tls.certresolver=cloudflare"
+      - "traefik.http.services.dos.loadbalancer.server.port=8000"
+      - "traefik.http.services.dos.loadbalancer.server.scheme=http"
+      - "traefik.http.routers.dos.service=dos"
+      - "traefik.http.routers.dos.middlewares=gzip@file"
