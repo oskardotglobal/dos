@@ -24,11 +24,15 @@ export class GameState {
     public readonly deck: Deck;
     private turnOrderReversed: boolean;
 
-    private constructor(players: Record<PlayerID, Player>, discardPile: DiscardPile, deck: Deck, turnOrderReversed: boolean) {
+    /** the players that want a draw */
+    private wantsDraw: PlayerID[];
+
+    private constructor(players: Record<PlayerID, Player>, discardPile: DiscardPile, deck: Deck, turnOrderReversed: boolean, wantsDraw: PlayerID[]) {
         this.deck = deck;
         this.discardPile = discardPile;
         this.players = players;
         this.turnOrderReversed = turnOrderReversed;
+        this.wantsDraw = wantsDraw;
     }
 
     /**
@@ -41,6 +45,21 @@ export class GameState {
 
     public reverseTurnOrder() {
         this.turnOrderReversed = !this.turnOrderReversed;
+    }
+
+    public wantDraw(id: PlayerID) {
+        if (id in this.wantsDraw) return;
+        this.wantsDraw.push(id);
+    }
+
+    public endIf(ctx: Ctx): { winner: PlayerID } | { draw: boolean } | void {
+        if (this.getPlayer(ctx.currentPlayer).getHand().length === 0) {
+            return {winner: ctx.currentPlayer};
+        }
+
+        if (this.wantsDraw.length / ctx.numPlayers >= 0.5) {
+            return {draw: true}
+        }
     }
 
     /**
@@ -66,6 +85,8 @@ export class GameState {
         g.players = players;
         g.deck = this.deck.serialize();
         g.discardPile = this.discardPile.serialize();
+        g.turnOrderReversed = this.turnOrderReversed;
+        g.wantsDraw = this.wantsDraw;
     }
 
     /**
@@ -90,6 +111,7 @@ export class GameState {
             DiscardPile.prototype.deserialize(g.discardPile),
             Deck.prototype.deserialize(g.deck),
             g.turnOrderReversed,
+            g.wantsDraw,
         );
     }
 
@@ -111,7 +133,7 @@ export class GameState {
             players[playerId] = Player.create(deck);
         }
 
-        return new GameState(players, discardPile, deck, false);
+        return new GameState(players, discardPile, deck, false, []);
     }
 }
 
@@ -127,4 +149,5 @@ export interface SerializableGameState {
     players: Record<PlayerID, SerializablePlayer>;
     discardPile: SerializableDiscardPile;
     turnOrderReversed: boolean;
+    wantsDraw: PlayerID[];
 }
