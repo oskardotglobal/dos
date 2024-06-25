@@ -122,3 +122,4 @@ pnpm-lock.yaml
 
 # Plantuml exec
 .bin
+.vercel
