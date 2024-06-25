@@ -8,18 +8,26 @@ import {assert} from "$/lib/util/assertions";
  * @class
  */
 export class Player implements Serializable<Player, SerializablePlayer> {
-    private readonly hand: Card[];
+    private hand: Card[];
 
     private constructor(hand: Card[]) {
         this.hand = hand;
     }
 
     /**
-     * Returns the player's hand.
+     * Returns the player's hand cards.
      * @method
      */
     public getHand() {
         return this.hand;
+    }
+
+    /**
+     * Sets the player's hand cards
+     * @method
+     */
+    public setHand(cards: Card[]) {
+        this.hand = cards;
     }
 
     /**

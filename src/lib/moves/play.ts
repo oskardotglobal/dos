@@ -17,7 +17,8 @@ export const Play: Move<SerializableGameState> = (args, cardID: number, wishedCo
     const {
         G: g,
         events,
-        ctx
+        ctx,
+        random,
     } = args;
 
     const G = GameState.deserialize(g);
@@ -59,6 +60,16 @@ export const Play: Move<SerializableGameState> = (args, cardID: number, wishedCo
         case CardType.WISH_PLUS_FOUR:
             const card = G.discardPile.peek();
             card.color = wishedColor;
+
+            break;
+        case CardType.SWAP_CARDS:
+
+            const shuffleOrder = random.Shuffle(ctx.playOrder);
+            for (const [i, id] of shuffleOrder.entries()) {
+                const ablage = G.getPlayer(id).getHand();
+                G.getPlayer(id).setHand(G.getPlayer(ctx.playOrder[i]).getHand());
+                G.getPlayer(ctx.playOrder[i]).setHand(ablage);
+            }
 
             break;
         case CardType.SKIP:
