@@ -42,7 +42,7 @@ export const Play: Move<SerializableGameState> = (args, cardID: number, wishedCo
     }
 
     assert(hand[cardID] !== undefined, `Card of player ${ctx.currentPlayer} with id ${cardID} not found`);
-    const pickedCard = hand[cardID]!;
+    const pickedCard = hand[cardID];
 
     if (!G.discardPile.canPlayOn(pickedCard)) {
         return INVALID_MOVE;

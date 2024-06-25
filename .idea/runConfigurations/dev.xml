@@ -6,7 +6,9 @@
       <script value="dev" />
     </scripts>
     <node-interpreter value="project" />
-    <envs />
+    <envs>
+      <env name="SERVER_URL" value="http://localhost:8000" />
+    </envs>
     <method v="2" />
   </configuration>
 </component>

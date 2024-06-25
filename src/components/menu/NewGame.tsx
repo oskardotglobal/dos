@@ -5,7 +5,7 @@ import LoadingScreen from "$/components/menu/LoadingScreen";
 import {SocketIO} from "boardgame.io/multiplayer";
 import {useMatch} from "$/lib/match";
 
-export const serverUrl = "https://dos.oskar.global";
+export const serverUrl = import.meta.env.SERVER_URL || "http://localhost:8000";
 
 /**
  * A react component representing the game screen. Renders the boardgame.io client. <br />
