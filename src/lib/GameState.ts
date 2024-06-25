@@ -25,7 +25,7 @@ export class GameState {
     private turnOrderReversed: boolean;
 
     /** the players that want a draw */
-    private wantsDraw: PlayerID[];
+    private readonly wantsDraw: PlayerID[];
 
     private constructor(players: Record<PlayerID, Player>, discardPile: DiscardPile, deck: Deck, turnOrderReversed: boolean, wantsDraw: PlayerID[]) {
         this.deck = deck;
