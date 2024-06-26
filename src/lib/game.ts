@@ -38,6 +38,7 @@ export const DosGame: Game<SerializableGameState> = {
             next: ({ G: g, ctx }) => (ctx.playOrderPos + (g.turnOrderReversed ? -1 : 1)) % ctx.numPlayers,
         }
     },
+    endIf: ({ G: g, ctx }) => GameState.deserialize(g).endIf(ctx),
     moves: {Draw, Play},
 
     /**

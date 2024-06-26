@@ -1,6 +1,6 @@
 import type {BoardProps} from "boardgame.io/react";
 import {GameState, SerializableGameState} from "$/lib/api";
-import React, {useMemo} from "react";
+import {useMemo} from "react";
 import Background from "$/components/board/Background";
 import Hand from "$/components/board/Hand";
 import DiscardPile from "$/components/board/DiscardPile";
