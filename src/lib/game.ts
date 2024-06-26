@@ -35,7 +35,7 @@ export const DosGame: Game<SerializableGameState> = {
             // The phase ends if this returns undefined.
             // Here, we use a ternary statement to get the next player depending on whether the current turn order is reversed
             // Note that we simply use `g` here, we do not need `G` since we only read from unserialized attributes anyway
-            next: ({ G: g, ctx }) => (ctx.playOrderPos + (g.turnOrderReversed ? -1 : 1)) % ctx.numPlayers,
+            next: ({ G: g, ctx }) => (ctx.playOrderPos + (g.turnOrderReversed ? -1 : 1)) % ctx.numPlayers - 1,
         }
     },
     endIf: ({ G: g, ctx }) => GameState.deserialize(g).endIf(ctx),

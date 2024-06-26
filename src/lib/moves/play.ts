@@ -63,7 +63,6 @@ export const Play: Move<SerializableGameState> = (args, cardID: number, wishedCo
 
             break;
         case CardType.SWAP_CARDS:
-
             const shuffleOrder = random.Shuffle(ctx.playOrder);
             for (const [i, id] of shuffleOrder.entries()) {
                 const ablage = G.getPlayer(id).getHand();
@@ -75,7 +74,7 @@ export const Play: Move<SerializableGameState> = (args, cardID: number, wishedCo
         case CardType.SKIP:
             G.serialize(g);
 
-            events.endTurn({next: ctx.playOrder[(ctx.playOrderPos + 2) % ctx.numPlayers]});
+            events.endTurn({next: ctx.playOrder[(ctx.playOrderPos + 2) % ctx.numPlayers - 1]});
             break;
     }
 
