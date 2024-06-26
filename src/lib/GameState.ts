@@ -5,10 +5,11 @@ import {
     Deck,
     SerializableDeck,
     SerializableDiscardPile,
-    SerializablePlayer,
+    SerializablePlayer, CardType,
 } from "$/lib/api";
 import {assert} from "$/lib/util/assertions";
 import {RandomAPI} from "boardgame.io/dist/types/src/plugins/random/random";
+import {EventsAPI} from "boardgame.io/dist/types/src/plugins/events/events";
 
 /**
  * The type of `G`. <br />
@@ -60,6 +61,31 @@ export class GameState {
         if (this.wantsDraw.length / ctx.numPlayers >= 0.5) {
             return {draw: true}
         }
+    }
+
+    public checkForceDraw(g: SerializableGameState, ctx: Ctx, events: EventsAPI): boolean {
+        const player = this.getPlayer(ctx.currentPlayer);
+        const hand = player.getHand();
+
+        if (
+            // ist die Karte auf dem Stapel eine +2 oder +4?
+            this.discardPile.peek().type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR]
+            // und hat der Spieler keine +2 oder +4 auf der Hand (die Bedingung, dass der Typ eine +2 oder +4 ist, ist für keine karte auf der Hand wahr)
+            && !hand.some((card) => card.type in [CardType.PLUS_TWO, CardType.WISH_PLUS_FOUR])
+        ) {
+            // dann muss der Spieler Strafkarten ziehen
+
+            for (let i = 0; i < this.discardPile.getDrawAmount(); i++) {
+                player.draw(this.deck);
+            }
+
+            this.serialize(g);
+            events.endTurn();
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

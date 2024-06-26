@@ -11,6 +11,8 @@ export const Draw: Move<SerializableGameState> = (args) => {
     const G = GameState.deserialize(g);
     const player = G.getPlayer(ctx.currentPlayer);
 
+    if (G.checkForceDraw(g, ctx, events)) return;
+
     player.draw(G.deck);
 
     G.serialize(g);
