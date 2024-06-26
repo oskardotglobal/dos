@@ -87,3 +87,11 @@
 
     transform: rotate(180deg);
 }
+
+.your-turn {
+    position: absolute;
+    color: white;
+
+    left: 601px;
+    top: 500px;
+}

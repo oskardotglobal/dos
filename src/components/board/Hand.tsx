@@ -1,6 +1,7 @@
 import {CardColor, Player} from "$/lib/api";
 import {assert} from "$/lib/util/assertions";
 import {useMemo} from "react";
+import {Ctx} from "boardgame.io";
 
 /**
  * A react component representing the hand of a player. <br />
@@ -14,8 +15,10 @@ import {useMemo} from "react";
  * @component
  */
 export default function Hand(props: {
+    ctx: Ctx,
     player: Player,
-    moves: Record<string, (...args: any[]) => void>
+    moves: Record<string, (...args: any[]) => void>,
+    id: string,
 }) {
     const positions = [
         [321, 565],
@@ -34,7 +37,7 @@ export default function Hand(props: {
 
     const hand = useMemo(() => props.player.getHand(), [props.player]);
 
-    return <>
+    return <div>
         {
             hand
                 .slice(0, Math.min(positions.length, hand.length))
@@ -83,5 +86,7 @@ export default function Hand(props: {
                     />
                 })
         }
-    </>
+
+        <h1 className={"text-4xl your-turn"}>{ props.ctx.currentPlayer === props.id ? "Du bist am Zug!" : ""  }</h1>
+    </div>
 }

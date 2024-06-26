@@ -5,7 +5,6 @@ import Background from "$/components/board/Background";
 import Hand from "$/components/board/Hand";
 import DiscardPile from "$/components/board/DiscardPile";
 import Deck from "$/components/board/Deck";
-import {assert} from "$/lib/util/assertions";
 import Enemy from "$/components/board/Enemy";
 
 export default function Board(props: BoardProps<SerializableGameState>) {
@@ -35,6 +34,8 @@ export default function Board(props: BoardProps<SerializableGameState>) {
         <Hand
             player={G.getPlayer(props.playerID)}
             moves={props.moves}
+            ctx={props.ctx}
+            id={props.playerID}
         />
 
         {
